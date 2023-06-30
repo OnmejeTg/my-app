@@ -1,14 +1,15 @@
 import React from "react";
+import { Typography } from "@mui/material";
 
 const ActiveStudent = () => {
   return (
     <div class="container-fluid">
-      {/* <!-- DataTales Example --> */}
+      <Typography variant="h4" align="center" gutterBottom>
+        Active Students 
+      </Typography>
+     
       <div class="card shadow mb-4">
         <div class="card-body">
-          <div class="text-center">
-            <h2 class="h4 text-gray-900 mb-4">Active Students</h2>
-          </div>
           <div class="table-responsive">
             <table
               class="table table-bordered"

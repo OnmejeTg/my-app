@@ -1,5 +1,14 @@
-import { useState } from "react";
-import { Button, Input } from "@mui/material";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { TextField, Button, Grid, Typography } from "@mui/material"
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+`;
+
 
 const UploadStudents = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -14,40 +23,28 @@ const UploadStudents = () => {
   };
 
   return (
-    <div class="container-fluid">
-      <div class="card o-hidden border-0 shadow-lg my-5">
-        <div class="card-body p-0">
-          <div class="row">
-            <div class="col-lg-7">
-              <div class="p-5">
-                <h1 class="h4 text-gray-900 mb-4">Upload Students file</h1>
-                <form action="">
-                  <div class="form-group row">
-                    <div class="col-lg-6">
-                      <Input
-                        onChange={handleFileChange}
-                        type="file"
-                        className="custom-input form-control form-control-user"
-                      ></Input>
-                      <small>accepted formats: xlsx, xls, odf</small>
-                    </div>
-                  </div>
-
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={handleUpload}
-                  >
-                    Upload
-                  </Button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <FormContainer onSubmit={handleUpload}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Upload Students 
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <input
+            type="file"
+            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            onChange={handleFileChange}
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button type="submit" variant="contained" color="primary">
+            Upload
+          </Button>
+        </Grid>
+      </Grid>
+    </FormContainer>
   );
 };
 
 export default UploadStudents;
+

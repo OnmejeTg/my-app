@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import { NavLink, Link, Outlet, useNavigate } from "react-router-dom";
-import $ from 'jquery';
-import { toggleButtonClasses } from "@mui/material";
-
+import { NavLink, Outlet } from "react-router-dom";
 
 const StudentWrapper = () => {
-
-  const toggleSideBar = ()=>{
-    let toggleClass = document.querySelector('body')
-    let toggleTop = document.querySelector(".sidebar")
-    toggleClass.classList.toggle("sidebar-toggled")
-    toggleTop.classList.toggle('toggled')
-  }
+  const toggleSideBar = () => {
+    let toggleClass = document.querySelector("body");
+    let toggleTop = document.querySelector(".sidebar");
+    toggleClass.classList.toggle("sidebar-toggled");
+    toggleTop.classList.toggle("toggled");
+  };
   return (
     <div id="page-top">
       <div id="wrapper">
@@ -38,7 +33,7 @@ const StudentWrapper = () => {
 
           {/* <!-- Nav Item - Dashboard --> */}
           <li className="nav-item ">
-            <NavLink className="nav-link" to="index.html">
+            <NavLink className="nav-link" to="">
               <i className="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span>
             </NavLink>
@@ -49,37 +44,59 @@ const StudentWrapper = () => {
               className="nav-link collapsed"
               href="#"
               data-toggle="collapse"
-              data-target="#collapseUtilities"
+              data-target="#collapseStudent"
               aria-expanded="true"
-              aria-controls="collapseUtilities"
+              aria-controls="collapseStudent"
             >
               <i className="fas fa-user-graduate"></i>
               <span>Students</span>
             </a>
             <div
-              id="collapseUtilities"
+              id="collapseStudent"
               className="collapse"
               aria-labelledby="headingUtilities"
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/students/active" end>
+                <NavLink className="collapse-item" to="/active" end>
                   Active student
                 </NavLink>
-                <NavLink className="collapse-item" to="/students/add">
+                <NavLink className="collapse-item" to="/add">
                   Add student
                 </NavLink>
-                <NavLink className="collapse-item" to="/students/upload">
+                <NavLink className="collapse-item" to="/upload">
                   Upload students
                 </NavLink>
               </div>
             </div>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/fees">
-              <i className="fas fa-dollar-sign"></i>
-              <span>Fees</span>
-            </NavLink>
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapsFee"
+              aria-expanded="true"
+              aria-controls="collapsFee"
+            >
+              <i className="fas fa-user-graduate"></i>
+              <span>Fee</span>
+            </a>
+            <div
+              id="collapsFee"
+              className="collapse"
+              aria-labelledby="headingUtilities"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <NavLink className="collapse-item" to="/pay-fee">
+                  Pay fee
+                </NavLink>
+                <NavLink className="collapse-item" to="/fee-outstanding" end>
+                  Outstanding
+                </NavLink>
+              </div>
+            </div>
           </li>
           <li className="nav-item">
             <NavLink className="nav-link" to="/result">
@@ -197,7 +214,7 @@ const StudentWrapper = () => {
                     </span>
                     <img
                       className="img-profile rounded-circle"
-                      src="../assets/img/undraw_profile.svg"
+                      src="../../assets/img/undraw_profile.svg"
                     />
                   </a>
                   {/* <!-- Dropdown - User Information --> */}
@@ -234,26 +251,50 @@ const StudentWrapper = () => {
             {/* <!-- End of Topbar --> */}
 
             {/* <!-- Begin Page Content --> */}
-            <Outlet/>
+            <Outlet />
           </div>
-        <div className="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
-                <div className="modal-dialog" role="document">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                            <button className="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div className="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                        <div className="modal-footer">
-                            <button className="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                            <a className="btn btn-primary" href="login.html">Logout</a>
-                        </div>
-                    </div>
+          <div
+            className="modal fade"
+            id="logoutModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Ready to Leave?
+                  </h5>
+                  <button
+                    className="close"
+                    type="button"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">×</span>
+                  </button>
                 </div>
-        </div>
+                <div className="modal-body">
+                  Select "Logout" below if you are ready to end your current
+                  session.
+                </div>
+                <div className="modal-footer">
+                  <button
+                    className="btn btn-secondary"
+                    type="button"
+                    data-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <a className="btn btn-primary" href="login.html">
+                    Logout
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
           {/* <!-- Footer --> */}
           <footer className="sticky-footer bg-white">
@@ -267,8 +308,6 @@ const StudentWrapper = () => {
         </div>
         {/* <!-- End of Content Wrapper --> */}
       </div>
-    
-
     </div>
   );
 };
