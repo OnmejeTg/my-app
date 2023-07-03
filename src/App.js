@@ -1,5 +1,4 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-// import DateSelector from "./components/DateSelector";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
@@ -10,6 +9,11 @@ import ActiveStudent from "./pages/students/ActiveStudents";
 import Student from "./pages/students/Student";
 import DashBoard from "./pages/DashBoard";
 import PayFee from "./pages/fees/PayFee";
+import OutstandingFees from "./pages/fees/OutstandingFees";
+import AddAssesment from "./pages/results/AddAssesment";
+import UploadAssessment from "./pages/results/UploadAssessment";
+import ViewStaff from "./pages/staff/ViewStaff";
+import AddStaff from "./pages/staff/AddStaff";
 
 function App() {
   return (
@@ -17,12 +21,23 @@ function App() {
       <Router>
         <Routes>
           <Route exact path="" element={<StudentWrapper />}>
+            {/* DashBoard */}
             <Route exact path="" element={<DashBoard />} />
-            <Route exact path="active" element={<ActiveStudent />} />
-            <Route exact path="add" element={<AddStudent />} />
-            <Route exact path="upload" element={<UploadStudents />} />
-            <Route exact path="student" element={<Student />} />
-            <Route exact path="pay-fee" element={<PayFee/>} />
+            {/* student routes */}
+            <Route exact path="active-students" element={<ActiveStudent />} />
+            <Route exact path="add-student" element={<AddStudent />} />
+            <Route exact path="upload-students" element={<UploadStudents />} />
+            {/* this route is to view an individual student */}
+            <Route exact path="view-student" element={<Student />} />
+            {/* fee routes */}
+            <Route exact path="pay-fee" element={<PayFee />} />
+            <Route exact path="outstanding-fee" element={<OutstandingFees />} />
+            {/* result routes */}
+            <Route exact path="add-assessment" element={<AddAssesment />} />
+            <Route exact path="upload-scores" element={<UploadAssessment />} />
+            {/* staff routes */}
+            <Route exact path="view-staff" element={<ViewStaff />} />
+            <Route exact path="add-staff" element={<AddStaff />} />
           </Route>
         </Routes>
       </Router>

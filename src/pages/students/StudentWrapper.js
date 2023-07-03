@@ -58,13 +58,13 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/active" end>
+                <NavLink className="collapse-item" to="/active-students" end>
                   Active student
                 </NavLink>
-                <NavLink className="collapse-item" to="/add">
+                <NavLink className="collapse-item" to="/add-student">
                   Add student
                 </NavLink>
-                <NavLink className="collapse-item" to="/upload">
+                <NavLink className="collapse-item" to="/upload-students">
                   Upload students
                 </NavLink>
               </div>
@@ -79,7 +79,7 @@ const StudentWrapper = () => {
               aria-expanded="true"
               aria-controls="collapsFee"
             >
-              <i className="fas fa-user-graduate"></i>
+              <i className="fas fa-dollar-sign" ></i>
               <span>Fee</span>
             </a>
             <div
@@ -92,23 +92,67 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="/pay-fee">
                   Pay fee
                 </NavLink>
-                <NavLink className="collapse-item" to="/fee-outstanding" end>
+                <NavLink className="collapse-item" to="/outstanding-fee" end>
                   Outstanding
                 </NavLink>
               </div>
             </div>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/result">
-              <i className="fas fa-award"></i>
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapaseResult"
+              aria-expanded="true"
+              aria-controls="collapaseResult"
+            >
+              <i className="fas fa-award" ></i>
               <span>Result</span>
-            </NavLink>
+            </a>
+            <div
+              id="collapaseResult"
+              className="collapse"
+              aria-labelledby="headingUtilities"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <NavLink className="collapse-item" to="/add-assessment">
+                  Add assessment
+                </NavLink>
+                <NavLink className="collapse-item" to="/upload-scores" end>
+                  Upload Scores
+                </NavLink>
+              </div>
+            </div>
           </li>
           <li className="nav-item">
-            <NavLink className="nav-link" to="/staff">
-              <i className="fas fa-chalkboard-teacher"></i>
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapseStaff"
+              aria-expanded="true"
+              aria-controls="collapseStaff"
+            >
+              <i className='fas fa-chalkboard-teacher' ></i>
               <span>Staff</span>
-            </NavLink>
+            </a>
+            <div
+              id="collapseStaff"
+              className="collapse"
+              aria-labelledby="headingUtilities"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <NavLink className="collapse-item" to="/view-staff">
+                 View Staff
+                </NavLink>
+                <NavLink className="collapse-item" to="/add-staff" end>
+                  Add Staff
+                </NavLink>
+              </div>
+            </div>
           </li>
 
           {/* <!-- Sidebar Toggler (Sidebar) --> */}
@@ -256,7 +300,7 @@ const StudentWrapper = () => {
           <div
             className="modal fade"
             id="logoutModal"
-            tabindex="-1"
+            tabIndex="-1"
             role="dialog"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"

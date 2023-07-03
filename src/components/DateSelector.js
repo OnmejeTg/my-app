@@ -4,18 +4,19 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
 
 
-const DateSelector= ({text}) => {
-  const [selectedDate, setSelectedDate] = useState(null);
-  console.log(selectedDate)
+const DateSelector= ({text, selectedDate}) => {
+  // const [selectedDate, setSelectedDate] = useState(null);
+  console.log(text)
+
   return (
     <Stack spacing sx={{ width: "400px", borderRadius: '50%'  }}  >
       <DatePicker
         label={text}
         slotProps={{ textField: { variant: 'outlined' } }}
         value={selectedDate}
-        onChange={(newValue)=>{
-        setSelectedDate(newValue)
-        }} 
+        // onChange={(x)=>{
+        // setSelectedDate(x)
+        // }} 
         format="DD/MM/YYYY"
         
       />
