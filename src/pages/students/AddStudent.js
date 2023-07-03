@@ -85,7 +85,7 @@ function AddStudent() {
         // Handle the error here
       });
 
-    console.log("DOB", dateofAdmission);
+    
     // clear form
     setSex("");
     setSurname("");

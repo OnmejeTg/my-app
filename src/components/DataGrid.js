@@ -1,5 +1,5 @@
 import React from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
 const DataGridExample = () => {
   const [rows, setRows] = React.useState([]);
@@ -24,7 +24,13 @@ const DataGridExample = () => {
   return (
     <div>
       <div style={{ height: "100%", width: "100%" }}>
-        <DataGrid rows={rows} columns={columns} />
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          slots={{
+            toolbar: GridToolbar,
+          }}
+        />
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { TextField, Button, Grid, Typography } from "@mui/material"
+import React, { useState } from "react";
+import styled from "styled-components";
+import { TextField, Button, Grid, Typography } from "@mui/material";
 
 const FormContainer = styled.form`
   display: flex;
@@ -9,7 +9,6 @@ const FormContainer = styled.form`
   margin: 0 auto;
 `;
 
-
 const UploadStudents = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -17,22 +16,48 @@ const UploadStudents = () => {
     setSelectedFile(event.target.files[0]);
   };
 
-  const handleUpload = () => {
-    // Perform upload logic with the selectedFile
+  const handleUpload = (event) => {
+    event.preventDefault();
+    // Handle form submission here
     console.log(selectedFile);
+
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append("excel_file", selectedFile);
+
+      const headers = new Headers();
+      headers.append('Accept', 'application/json');
+
+      fetch("http://127.0.0.1:8000/student/upload", {
+        method: "POST",
+        headers: headers,
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Response:", data);
+          // Handle the response data here
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          // Handle the error here
+        });
+
+      setSelectedFile(null);
+    }
   };
 
   return (
     <FormContainer onSubmit={handleUpload}>
       <Typography variant="h4" align="center" gutterBottom>
-        Upload Students 
+        Upload Students
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <input
             type="file"
             accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            onChange={handleFileChange}
+            onChange={(event) => setSelectedFile(event.target.files[0])}
             required
           />
         </Grid>
@@ -47,4 +72,3 @@ const UploadStudents = () => {
 };
 
 export default UploadStudents;
-
