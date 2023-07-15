@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import styled from "styled-components";
 import {
   FormControl,
@@ -12,7 +10,6 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
-
 
 const FormContainer = styled.form`
   display: flex;
@@ -29,7 +26,7 @@ const StyledButton = styled(Button)`
   margin-top: 1rem;
 `;
 
-const AddAssessment = () => {
+const AddExam = () => {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState("");
   const [courses, setCourses] = useState([]);
@@ -58,7 +55,9 @@ const AddAssessment = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://127.0.0.1:8000/result/add-assessment", {
+    // Handle form submission here
+    event.preventDefault();
+    fetch("http://127.0.0.1:8000/result/add-exam", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -69,17 +68,6 @@ const AddAssessment = () => {
         "course": selectedCourse
       }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        toast.success("Assessment added!");
-        // Handle the response data here
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        toast.error("Failed. Please try again.");
-        // Handle the error here
-      });
-    // Handle form submission here
     // console.log("Submitted:", selectedStudent, selectedCourse, score);
 
     // Clear form fields
@@ -91,7 +79,7 @@ const AddAssessment = () => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Typography variant="h4" align="center" gutterBottom>
-        Enter Assessment Details
+        Enter Exam Details
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -146,9 +134,8 @@ const AddAssessment = () => {
           </StyledButton>
         </Grid>
       </Grid>
-      <ToastContainer />
     </FormContainer>
   );
 };
 
-export default AddAssessment;
+export default AddExam;

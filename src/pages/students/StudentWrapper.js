@@ -39,7 +39,7 @@ const StudentWrapper = () => {
             </NavLink>
           </li>
 
-          <li className="nav-item active">
+          <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
@@ -120,8 +120,14 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="/add-assessment">
                   Add assessment
                 </NavLink>
+                <NavLink className="collapse-item" to="/add-exam">
+                  Add Exam
+                </NavLink>
                 <NavLink className="collapse-item" to="/upload-scores" end>
                   Upload Scores
+                </NavLink>
+                <NavLink className="collapse-item" to="/view-scores" end>
+                  Preview Scores
                 </NavLink>
               </div>
             </div>

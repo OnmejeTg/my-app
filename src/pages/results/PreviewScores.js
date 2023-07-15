@@ -1,20 +1,19 @@
-import React from "react";
 import { Typography } from "@mui/material";
-import DefaultersGrid from "../../components/DefaultersGrid";
+import PreviewScoresGrid from "../../components/PreviewScoresGrid";
 
-const OutstandingFees = () => {
+const PreviewScores = () => {
   return (
     <div className="container-fluid">
       <div className="card shadow mb-4">
         <div className="card-body">
           <Typography variant="h4" align="center" gutterBottom>
-            Outstanding Fees
+            Preview Scores
           </Typography>
-          <DefaultersGrid />
+          <PreviewScoresGrid />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default OutstandingFees;
+export default PreviewScores

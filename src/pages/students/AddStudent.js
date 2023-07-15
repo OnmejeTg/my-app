@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   Grid,
   Button,
@@ -9,6 +12,7 @@ import {
   Select,
   MenuItem,
   Stack,
+  Input,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import styled from "styled-components";
@@ -22,10 +26,6 @@ const FormContainer = styled.form`
 
 const StyledButton = styled(Button)`
   margin-top: 16px;
-`;
-
-const StyledFormControl = styled(FormControl)`
-  width: 100%;
 `;
 
 function AddStudent() {
@@ -42,6 +42,7 @@ function AddStudent() {
   const [parentOccupation, setParentOccupation] = useState("");
   const [dateofBirth, setDateofBirth] = useState(null);
   const [dateofAdmission, setDateofAdmission] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     // Fetch data from API
@@ -51,42 +52,58 @@ function AddStudent() {
       .catch((error) => console.log(error));
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Handle form submission here
+// TODO:set default image
+    const getDefaultImage = () => {
+      // Return your default image here
+      // For example, you can provide a URL or import a default image from your project
+      console.log("../../../public/default.png")
+    };
 
-    fetch("http://127.0.0.1:8000/student/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        surname: surname,
-        othernames: othernames,
-        date_of_birth: dateofBirth,
-        year_of_admission: dateofAdmission,
-        parent_surname: parentSurname,
-        parent_othernames: parentOthernames,
-        parent_phone: parentPhone,
-        parent_address: parentAddress,
-        parent_email: parentEmail,
-        parent_occupation: parentOccupation,
-        class_id: selectedClass,
-        sex: sex,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Response:", data);
-        // Handle the response data here
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        // Handle the error here
-      });
+    const imageToSend = selectedFile ? selectedFile : getDefaultImage();
 
-    
-    // clear form
+    if (imageToSend) {
+      console.log(imageToSend);
+      const formData = new FormData();
+      formData.append("profile_pics", imageToSend);
+      formData.append("surname", surname);
+      formData.append("othernames", othernames);
+      formData.append("date_of_birth", dateofBirth);
+      formData.append("year_of_admission", dateofAdmission);
+      formData.append("parent_surname", parentSurname);
+      formData.append("parent_othernames", parentOthernames);
+      formData.append("parent_phone", parentPhone);
+      formData.append("parent_address", parentAddress);
+      formData.append("parent_email", parentEmail);
+      formData.append("parent_occupation", parentOccupation);
+      formData.append("class_id", selectedClass);
+      formData.append("sex", sex);
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/student/add", {
+          method: "POST",
+          // headers: {
+          //   "Content-Type": "multipart/form-data",
+          // },
+          body: formData,
+        });
+
+        if (response.ok) {
+          // File submitted successfully
+          toast.success("Student added!");
+          console.log("File submitted");
+        } else {
+          // Handle error response
+          console.error("Error submitting file");
+          toast.error("Failed. Please try again.");
+        }
+      } catch (error) {
+        // Handle network error
+        console.error("Network error:", error);
+        toast.error("Failed. Please try again.");
+      }
+    }
     setSex("");
     setSurname("");
     setOthernames("");
@@ -99,6 +116,7 @@ function AddStudent() {
     setDateofBirth(null);
     setDateofAdmission(null);
     setSelectedClass("");
+    setSelectedFile(null);
   };
 
   return (
@@ -266,11 +284,22 @@ function AddStudent() {
           />
         </Grid>
         <Grid item xs={12}>
+          <InputLabel htmlFor="file-input">Select Passport</InputLabel>
+          <Input
+            fullWidth
+            variant="outlined"
+            type="file"
+            id="file-input"
+            onChange={(event) => setSelectedFile(event.target.files[0])}
+          />
+        </Grid>
+        <Grid item xs={12}>
           <StyledButton type="submit" variant="contained" color="primary">
             Register
           </StyledButton>
         </Grid>
       </Grid>
+      <ToastContainer />
     </FormContainer>
   );
 }

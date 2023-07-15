@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { TextField, Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, Input } from "@mui/material";
 
 const FormContainer = styled.form`
   display: flex;
@@ -12,9 +12,9 @@ const FormContainer = styled.form`
 const UploadStudents = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+  // const handleFileChange = (event) => {
+  //   setSelectedFile(event.target.files[0]);
+  // };
 
   const handleUpload = (event) => {
     event.preventDefault();
@@ -54,7 +54,7 @@ const UploadStudents = () => {
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <input
+          <Input
             type="file"
             accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             onChange={(event) => setSelectedFile(event.target.files[0])}

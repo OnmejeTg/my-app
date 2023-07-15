@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import {
   Grid,
@@ -9,8 +9,10 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Stack,
 } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from "react-router-dom";
 
 const FormContainer = styled.form`
   display: flex;
@@ -23,21 +25,50 @@ const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
 
-const StyledFormControl = styled(FormControl)`
-  width: 100%;
-`;
 const PayFee = () => {
-  const [studentId, setStudentId] = useState("");
-  const [amount, setAmount] = useState("");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const studentId = queryParams.get("student_id");
+
+  const [student, setStudent] = useState(studentId || "");
+  const [portalFees, setPortalFees] = useState([]);
   const [description, setDescription] = useState("");
 
+  useEffect(() => {
+    // Fetch data from API
+    fetch("http://127.0.0.1:8000/fee/get-fees")
+      .then((response) => response.json())
+      .then((data) => setPortalFees(data.results))
+      .catch((error) => console.log(error));
+  }, []);
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Handle form submission here
 
-    setStudentId("");
-    setAmount("");
-    setDescription("");
+    const url = "http://127.0.0.1:8000/fee/pay";
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fee_type: description,
+        student: student,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Display success notification
+        toast.success("Payment successful!");
+
+        setStudent("");
+        setDescription("");
+      })
+      .catch((error) => {
+        // Handle error and display error notification
+        toast.error("Payment failed. Please try again.");
+        console.log(error);
+      });
   };
 
   return (
@@ -49,44 +80,38 @@ const PayFee = () => {
         <Grid item xs={12}>
           <TextField
             label="Student ID"
-            value={studentId}
+            value={student}
             variant="outlined"
             onChange={(event) => {
-              setStudentId(event.target.value);
+              setStudent(event.target.value);
             }}
             fullWidth
             required
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            label="Amount"
-            value={amount}
-            variant="outlined"
-            onChange={(event) => {
-              setAmount(event.target.value);
-            }}
-            fullWidth
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <StyledFormControl>
-            <InputLabel id="sex-label">Description</InputLabel>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Description</InputLabel>
             <Select
-              labelId="sex-label"
-              id="sex"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
               value={description}
+              label="Description"
               onChange={(event) => {
                 setDescription(event.target.value);
               }}
             >
-              <MenuItem value="sch fee">School fee</MenuItem>
-              <MenuItem value="pta">PTA levy</MenuItem>
-              <MenuItem value="sports">Sport levy</MenuItem>
-              <MenuItem value="ict">ICT fee</MenuItem>
+              {portalFees.length > 0 ? (
+                portalFees.map((item) => (
+                  <MenuItem key={item.id} value={item.name}>
+                    {item.name} ({item.amount})
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem value="">---Select Description---</MenuItem>
+              )}
             </Select>
-          </StyledFormControl>
+          </FormControl>
         </Grid>
 
         <Grid item xs={12}>
@@ -95,6 +120,7 @@ const PayFee = () => {
           </StyledButton>
         </Grid>
       </Grid>
+      <ToastContainer /> 
     </FormContainer>
   );
 };
