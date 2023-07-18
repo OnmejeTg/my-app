@@ -137,7 +137,7 @@ useFetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`, setStudent
             >
               {students.map((item) => (
                 <MenuItem key={item.id} value={item.id}>
-                  {item.surname} {item.othernames}
+                  {item.admission_id}: {item.surname} {item.othernames}
                 </MenuItem>
               ))}
             </Select>
