@@ -132,6 +132,9 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="/upload-scores" end>
                   Upload Scores
                 </NavLink>
+                <NavLink className="collapse-item" to="/compute-scores" end>
+                  Compute 
+                </NavLink>
                 
               </div>
             </div>

@@ -17,6 +17,7 @@ import AddStaff from "./pages/staff/AddStaff";
 import PreviewAssessment from "./pages/results/PreviewAssessment";
 import PreviewExam from "./pages/results/PreviewExam";
 import PreviewSecAssessment from "./pages/results/PreviewSecAssessment";
+import ComputeResult from "./pages/results/Compute";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
               element={<PreviewSecAssessment/>}
             />
             <Route exact path="view-exam" element={<PreviewExam />} />
+            <Route exact path="compute-scores" element={<ComputeResult/>} />
             {/* staff routes */}
             <Route exact path="view-staff" element={<ViewStaff />} />
             <Route exact path="add-staff" element={<AddStaff />} />
