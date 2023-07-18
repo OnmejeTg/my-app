@@ -13,7 +13,6 @@ import {
   Grid,
 } from "@mui/material";
 
-
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -29,61 +28,74 @@ const StyledButton = styled(Button)`
   margin-top: 1rem;
 `;
 
+const assessmentTypes = [
+  { value: "ass1", label: "First Assessment" },
+  { value: "ass2", label: "Second Assessment" },
+  { value: "exam", label: "Exam" },
+];
+
+const assessmentURLs = {
+  ass1: "http://127.0.0.1:8000/result/add-assessment",
+  ass2: "http://127.0.0.1:8000/result/add-second-assessment",
+  exam: "http://127.0.0.1:8000/result/add-exam",
+};
+
 const AddAssessment = () => {
   const [students, setStudents] = useState([]);
+  const [assessmentType, setAssessmentType] = useState("")
   const [selectedStudent, setSelectedStudent] = useState("");
   const [courses, setCourses] = useState([]);
   const [selectedCourse, setSelectedCourse] = useState("");
   const [score, setScore] = useState("");
 
+// Define a custom hook to fetch data from an API
+const useFetch = (url, setData) => {
   useEffect(() => {
-    // Fetch data from API
-    const classId = 1;
-
-    fetch(`http://127.0.0.1:8000/setup/get-class-courses/${classId}`)
+    fetch(url)
       .then((response) => response.json())
-      .then((data) => setCourses(data))
+      .then((data) => setData(data))
       .catch((error) => console.log(error));
-  }, []);
+  }, [url, setData]);
+};
 
-  useEffect(() => {
-    // Fetch data from API
-    const classId = 1;
+// Use the custom hook to fetch data for courses and students
+const classId = 1;
+useFetch(`http://127.0.0.1:8000/setup/get-class-courses/${classId}`, setCourses);
+useFetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`, setStudents);
 
-    fetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`)
-      .then((response) => response.json())
-      .then((data) => setStudents(data.data))
-      .catch((error) => console.log(error));
-  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("http://127.0.0.1:8000/result/add-assessment", {
+    // Get the URL from the map based on the assessment type
+    let url = assessmentURLs[assessmentType];
+    // Check if the URL is valid
+    if (!url) {
+      toast.error("Invalid assessment type.");
+      return;
+    }
+  
+    fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "score": score,
-        "student": selectedStudent,
-        "course": selectedCourse
+        score: score,
+        student: selectedStudent,
+        course: selectedCourse,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         toast.success("Assessment added!");
-        // Handle the response data here
+       
       })
       .catch((error) => {
         console.error("Error:", error);
         toast.error("Failed. Please try again.");
-        // Handle the error here
+        
       });
-    // Handle form submission here
-    // console.log("Submitted:", selectedStudent, selectedCourse, score);
-
-    // Clear form fields
-    // setSelectedStudent("");
+  
     setSelectedCourse("");
     setScore("");
   };
@@ -94,6 +106,25 @@ const AddAssessment = () => {
         Enter Assessment Details
       </Typography>
       <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <StyledFormControl>
+            <InputLabel id="demo-simple-select-label">
+              Assessment Type
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={assessmentType}
+              label="Assessment Type"
+              onChange={(event) => setAssessmentType(event.target.value)}
+            >
+              {assessmentTypes.map((item)=>(
+                <MenuItem key={item.value} value={item.value}>{item.label}</MenuItem>
+              ))}
+      
+            </Select>
+          </StyledFormControl>
+        </Grid>
         <Grid item xs={12}>
           <StyledFormControl>
             <InputLabel id="demo-simple-select-label">Student</InputLabel>
