@@ -7,7 +7,7 @@ const PreviewAssessment = () => {
       <div className="card shadow mb-4">
         <div className="card-body">
           <Typography variant="h4" align="center" gutterBottom>
-            Preview Assessment
+            Preview First Assessment
           </Typography>
           <PreviewScoresGrid />
         </div>

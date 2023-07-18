@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import PreviewScoresGrid from "../../components/PreviewScoresGrid";
+import PreviewSecAssGrid from "../../components/PreviewSecAssGrid";
 
 const PreviewSecAssessment = () => {
   return (
@@ -7,9 +7,9 @@ const PreviewSecAssessment = () => {
     <div className="card shadow mb-4">
       <div className="card-body">
         <Typography variant="h4" align="center" gutterBottom>
-          Preview Assessment
+          Preview Second Assessment
         </Typography>
-        <PreviewScoresGrid />
+        <PreviewSecAssGrid />
       </div>
     </div>
   </div>
