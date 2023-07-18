@@ -26,7 +26,7 @@ const Student = () => {
 
   useEffect(() => {
     // Fetch data from API
-    const classId = 1;
+    // const classId = 1;
 
     fetch(`http://127.0.0.1:8000/fee/fee-check`, {
       method:"POST",

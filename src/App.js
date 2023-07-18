@@ -15,7 +15,8 @@ import UploadAssessment from "./pages/results/UploadAssessment";
 import ViewStaff from "./pages/staff/ViewStaff";
 import AddStaff from "./pages/staff/AddStaff";
 import AddExam from "./pages/results/AddExam";
-import PreviewScores from "./pages/results/PreviewScores";
+import PreviewAssessment from "./pages/results/PreviewAssessment";
+import PreviewExam from "./pages/results/PreviewExam";
 
 function App() {
   return (
@@ -36,9 +37,14 @@ function App() {
             <Route exact path="outstanding-fee" element={<OutstandingFees />} />
             {/* result routes */}
             <Route exact path="add-assessment" element={<AddAssesment />} />
-            <Route exact path="add-exam" element={<AddExam/>} />
+            <Route exact path="add-exam" element={<AddExam />} />
             <Route exact path="upload-scores" element={<UploadAssessment />} />
-            <Route exact path="view-scores" element={<PreviewScores/>} />
+            <Route
+              exact
+              path="view-assessment"
+              element={<PreviewAssessment />}
+            />
+            <Route exact path="view-exam" element={<PreviewExam />} />
             {/* staff routes */}
             <Route exact path="view-staff" element={<ViewStaff />} />
             <Route exact path="add-staff" element={<AddStaff />} />

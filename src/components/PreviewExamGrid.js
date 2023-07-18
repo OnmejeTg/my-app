@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
-const PreviewScoresGrid = () => {
+const PreviewExamGrid = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
     // Fetch data from API
     const classId = 1;
 
-    fetch(`http://127.0.0.1:8000/result/view-assessment/${classId}`)
+    fetch(`http://127.0.0.1:8000/result/view-exam/${classId}`)
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.log(error));
@@ -40,7 +40,7 @@ const PreviewScoresGrid = () => {
   return (
     <div style={{ height: "100%", width: "100%" }}>
       {rows.length < 1 ? (
-        <div>No Assessment </div>
+        <div>No Exam Record</div>
       ) : (
         <DataGrid
           rows={rows}
@@ -53,5 +53,4 @@ const PreviewScoresGrid = () => {
     </div>
   );
 };
-
-export default PreviewScoresGrid;
+export default PreviewExamGrid;

@@ -1,13 +1,13 @@
 import { Typography } from "@mui/material";
 import PreviewScoresGrid from "../../components/PreviewScoresGrid";
 
-const PreviewScores = () => {
+const PreviewAssessment = () => {
   return (
     <div className="container-fluid">
       <div className="card shadow mb-4">
         <div className="card-body">
           <Typography variant="h4" align="center" gutterBottom>
-            Preview Scores
+            Preview Assessment
           </Typography>
           <PreviewScoresGrid />
         </div>
@@ -16,4 +16,4 @@ const PreviewScores = () => {
   )
 }
 
-export default PreviewScores
+export default PreviewAssessment

@@ -123,12 +123,16 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="/add-exam">
                   Add Exam
                 </NavLink>
+                <NavLink className="collapse-item" to="/view-assessment" end>
+                  Preview Assessment
+                </NavLink>
+                <NavLink className="collapse-item" to="/view-exam" end>
+                  Preview Exam
+                </NavLink>
                 <NavLink className="collapse-item" to="/upload-scores" end>
                   Upload Scores
                 </NavLink>
-                <NavLink className="collapse-item" to="/view-scores" end>
-                  Preview Scores
-                </NavLink>
+                
               </div>
             </div>
           </li>

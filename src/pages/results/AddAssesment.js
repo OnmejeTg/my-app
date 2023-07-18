@@ -83,7 +83,7 @@ const AddAssessment = () => {
     // console.log("Submitted:", selectedStudent, selectedCourse, score);
 
     // Clear form fields
-    setSelectedStudent("");
+    // setSelectedStudent("");
     setSelectedCourse("");
     setScore("");
   };

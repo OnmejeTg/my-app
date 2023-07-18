@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   FormControl,
   InputLabel,
@@ -68,10 +70,18 @@ const AddExam = () => {
         "course": selectedCourse
       }),
     })
+    .then((response) => response.json())
+    .then((data) => {
+      toast.success("Exam added!")
+    })
+    .catch((error)=>{
+      console.error("Error: ", error);
+      toast.error("Faild. Please try again")
+    })
     // console.log("Submitted:", selectedStudent, selectedCourse, score);
 
     // Clear form fields
-    setSelectedStudent("");
+    // setSelectedStudent("");
     setSelectedCourse("");
     setScore("");
   };
@@ -94,7 +104,7 @@ const AddExam = () => {
             >
               {students.map((item) => (
                 <MenuItem key={item.id} value={item.id}>
-                  {item.surname} {item.othernames}
+                  {item.admission_id} ({item.surname} {item.othernames})
                 </MenuItem>
               ))}
             </Select>
