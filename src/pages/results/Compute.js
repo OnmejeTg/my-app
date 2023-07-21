@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
 
 function ComputeResult() {
   const [resCalcTotal, setResCalTotal] = useState("");
@@ -11,8 +12,10 @@ function ComputeResult() {
       const data = await response.json();
       setResCalTotal(data);
       console.log(resCalcTotal);
+      toast.success("Totals computed successfully!");
     } catch (error) {
       console.log(error);
+      toast.error("Failed, Try again!");
     }
   };
 
@@ -22,8 +25,10 @@ function ComputeResult() {
       const data = await response.json();
       setResCalResult(data);
       console.log(resCalResult);
+      toast.success("Position computed successfully!");
     } catch (error) {
       console.log(error);
+      toast.error("Failed, Try again!");
     }
   };
 
@@ -69,6 +74,7 @@ function ComputeResult() {
         <br />
         Compute totals before computing positions
       </Typography>
+      <ToastContainer /> 
     </Grid>
   );
 }
