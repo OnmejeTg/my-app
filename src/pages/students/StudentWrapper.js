@@ -120,6 +120,9 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="/add-assessment">
                   Add assessment
                 </NavLink>
+                <NavLink className="collapse-item" to="/add-psychomotor">
+                  Add Psychomotor
+                </NavLink>
                 <NavLink className="collapse-item" to="/view-first-assessment" end>
                   View First Assessment
                 </NavLink>

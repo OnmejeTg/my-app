@@ -18,6 +18,7 @@ import PreviewAssessment from "./pages/results/PreviewAssessment";
 import PreviewExam from "./pages/results/PreviewExam";
 import PreviewSecAssessment from "./pages/results/PreviewSecAssessment";
 import ComputeResult from "./pages/results/Compute";
+import AddPsychomotor from "./pages/results/AddPsychomotor";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
             <Route exact path="outstanding-fee" element={<OutstandingFees />} />
             {/* result routes */}
             <Route exact path="add-assessment" element={<AddAssesment />} />
+            <Route exact path="add-psychomotor" element={<AddPsychomotor/>} />
             <Route exact path="upload-scores" element={<UploadAssessment />} />
             <Route
               exact
