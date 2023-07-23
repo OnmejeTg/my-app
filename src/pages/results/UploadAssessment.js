@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Button, Grid, Typography } from "@mui/material"
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Button, Grid, Typography, Input, InputLabel } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
 
 const FormContainer = styled.form`
   display: flex;
@@ -9,39 +10,37 @@ const FormContainer = styled.form`
   margin: 0 auto;
 `;
 
-
 const UploadAssessment = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
- 
-
   const handleUpload = (event) => {
     event.preventDefault();
-    // Handle form submission here
-    console.log(selectedFile);
-
     if (selectedFile) {
       const formData = new FormData();
       formData.append("scores", selectedFile);
 
       const headers = new Headers();
-      headers.append('Accept', 'application/json');
+      headers.append("Accept", "application/json");
 
       fetch("http://127.0.0.1:8000/result/upload-scores", {
         method: "POST",
         headers: headers,
         body: formData,
       })
-        .then((response) => response.json())
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
         .then((data) => {
           console.log("Response:", data);
-          // Handle the response data here
+          toast.success("Upload Successful.");
         })
         .catch((error) => {
           console.error("Error:", error);
-          // Handle the error here
+          toast.error("Upload failed.");
         });
-
       setSelectedFile(null);
     }
   };
@@ -49,15 +48,17 @@ const UploadAssessment = () => {
   return (
     <FormContainer onSubmit={handleUpload}>
       <Typography variant="h4" align="center" gutterBottom>
-        Upload Scores 
+        Upload Scores
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <input
+          <InputLabel htmlFor="file-input">Select score file</InputLabel>
+          <Input
+            fullWidth
+            variant="outlined"
             type="file"
-            accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            id="file-input"
             onChange={(event) => setSelectedFile(event.target.files[0])}
-            required
           />
         </Grid>
         <Grid item xs={12}>
@@ -66,8 +67,9 @@ const UploadAssessment = () => {
           </Button>
         </Grid>
       </Grid>
+      <ToastContainer />
     </FormContainer>
-  )
-}
+  );
+};
 
-export default UploadAssessment
+export default UploadAssessment;
