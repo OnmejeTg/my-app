@@ -11,10 +11,10 @@ import {
   Select,
   MenuItem,
   Stack,
-  Input,
 } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers";
 import styled from "styled-components";
+import { useLocation } from "react-router-dom";
+
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
@@ -33,10 +33,12 @@ const StyledInput = styled.input`
 `;
 
 const UpdateStudent = () => {
-  const student_id = "CK-23-00001";
+  // const student_id = "CK-23-00001";
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const studentId = queryParams.get("student_id");
 
   const [student, setStudent] = useState({});
-  const [sex, setSex] = useState("");
   const [surname, setSurname] = useState("");
   const [othernames, setOthernames] = useState("");
   const [stdClass, setStdClass] = useState([]);
@@ -60,7 +62,7 @@ const UpdateStudent = () => {
 
   useEffect(() => {
     // Fetch data from API
-    fetch(`http://127.0.0.1:8000/student/get-student/${student_id}`)
+    fetch(`http://127.0.0.1:8000/student/get-student/${studentId}`)
       .then((response) => response.json())
       .then((data) => {
         setStudent(data);
@@ -73,22 +75,15 @@ const UpdateStudent = () => {
         setParentOthernames(data.parent_othernames);
         setParentPhone(data.parent_phone);
         setParentSurname(data.parent_surname);
-        setSex(data.sex);
         setSelectedClass(data.class_id.id);
         setDateofAdmission(data.year_of_admission);
-        
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [studentId]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // TODO:set default image
-    const getDefaultImage = () => {
-      // Return your default image here
-      // For example, you can provide a URL or import a default image from your project
-      console.log("../../../public/default.png");
-    };
+    
 
     if (true) {
       const formData = new FormData();
@@ -103,25 +98,26 @@ const UpdateStudent = () => {
       formData.append("parent_address", parentAddress);
       formData.append("parent_email", parentEmail);
       formData.append("parent_occupation", parentOccupation);
-      // formData.append("class_id", selectedClass);
-      formData.append("sex", sex);
+      formData.append("class_id", selectedClass);
+      // formData.append("sex", sex);
 
       try {
-        const response = await fetch(`http://127.0.0.1:8000/student/update-student/${student.id}`, {
-          method: "PUT",
-          // headers: {
-          //   "Content-Type": "multipart/form-data",
-          // },
-          body: formData,
-        });
+        const response = await fetch(
+          `http://127.0.0.1:8000/student/update-student/${student.id}`,
+          {
+            method: "PUT",
+
+            body: formData,
+          }
+        );
 
         if (response.ok) {
           // File submitted successfully
-          toast.success("Student added!");
-          console.log("File submitted");
+          toast.success("Updated Successfully!");
+          
         } else {
           // Handle error response
-          console.error("Error submitting file");
+          
           toast.error("Failed. Please try again.");
         }
       } catch (error) {
@@ -131,10 +127,7 @@ const UpdateStudent = () => {
       }
     }
   };
-  const handleChange = (e) => {
-    setSurname(e.target.value);
-  };
-
+  
   console.log(student);
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -166,33 +159,25 @@ const UpdateStudent = () => {
             required
           />
         </Grid>
-        <Grid item xs={12}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Sex</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={sex}
-              label="Age"
-              onChange={(event) => {
-                setSex(event.target.value);
-              }}
-            >
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="female">Female</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
+
         <Grid item xs={12}>
           <Stack>
-          <label htmlFor="text-input">Date of Birth:</label>
-            <StyledInput type="date" value={dateofBirth} onChange={e=>setDateofBirth(e.target.value)} />
+            <label htmlFor="text-input">Date of Birth:</label>
+            <StyledInput
+              type="date"
+              value={dateofBirth}
+              onChange={(e) => setDateofBirth(e.target.value)}
+            />
           </Stack>
         </Grid>
         <Grid item xs={12}>
           <Stack>
             <label htmlFor="text-input">Date of Admission:</label>
-            <StyledInput type="date" value={dateofAdmission}  onChange={e=>setDateofAdmission(e.target.value)}  />
+            <StyledInput
+              type="date"
+              value={dateofAdmission}
+              onChange={(e) => setDateofAdmission(e.target.value)}
+            />
           </Stack>
         </Grid>
         <Grid item xs={12}>

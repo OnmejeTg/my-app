@@ -6,7 +6,7 @@ const Student = () => {
   const { id } = useParams();
   const [student, setStudent] = useState({});
   const [studentClass, setStudentClass] = useState("");
-  const [fee, setFee] = useState("")
+  const [fee, setFee] = useState("");
 
   useEffect(() => {
     const fetchStudentData = async () => {
@@ -30,19 +30,19 @@ const Student = () => {
     // const classId = 1;
 
     fetch(`http://127.0.0.1:8000/fee/fee-check`, {
-      method:"POST",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body:JSON.stringify({
-        "student":id
-      })
+      body: JSON.stringify({
+        student: id,
+      }),
     })
       .then((response) => response.json())
       .then((data) => setFee(data[0]))
       .catch((error) => console.log(error));
-  }, []);
-  console.log(fee)
+  }, [id]);
+  console.log(fee);
   return (
     <div>
       <div className="container-fluid">
@@ -72,7 +72,10 @@ const Student = () => {
                   <h6 className="font-weight-bold">
                     ID:{" "}
                     <span className="font-weight-lighter ml-2">
-                    <Link to={`/update-student/`}>{student.admission_id}</Link>
+                      
+                      <Link to={`/update-student?student_id=${student.admission_id}`}>
+                        {student.admission_id}
+                      </Link>
                     </span>
                   </h6>
                   <h6 className="font-weight-bold">
@@ -158,9 +161,8 @@ const Student = () => {
                   <div className="card-body">
                     <h6 className="font-weight-bold">
                       First Term:{" "}
-                      
                       <span className="font-weight-lighter ml-2">
-                        {fee? `Paid ${fee.fee_type.amount}`: "Not paid"}
+                        {fee ? `Paid ${fee.fee_type.amount}` : "Not paid"}
                       </span>
                     </h6>
                     <h6 className="font-weight-bold">
