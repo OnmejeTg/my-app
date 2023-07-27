@@ -19,8 +19,14 @@ import PreviewExam from "./pages/results/PreviewExam";
 import PreviewSecAssessment from "./pages/results/PreviewSecAssessment";
 import ComputeResult from "./pages/results/Compute";
 import AddPsychomotor from "./pages/results/AddPsychomotor";
+import UpdateStudent from "./pages/students/UpdateStudent";
 
 function App() {
+  const currentUserData = {
+    name: 'John Doe',
+    email: 'john.doe@example.com',
+    // Add more properties as needed
+  };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
@@ -32,6 +38,7 @@ function App() {
             <Route exact path="active-students" element={<ActiveStudent />} />
             <Route exact path="add-student" element={<AddStudent />} />
             <Route exact path="upload-students" element={<UploadStudents />} />
+            <Route exact path="update-student" element={<UpdateStudent currentUserData={currentUserData}/>} />
             {/* this route is to view an individual student */}
             <Route exact path="view-student/:id" element={<Student />} />
             {/* fee routes */}

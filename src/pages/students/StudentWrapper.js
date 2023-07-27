@@ -64,6 +64,9 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="/add-student">
                   Add student
                 </NavLink>
+                <NavLink className="collapse-item" to="/update-student">
+                  Update student
+                </NavLink>
                 <NavLink className="collapse-item" to="/upload-students">
                   Upload students
                 </NavLink>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Student = () => {
   const { id } = useParams();
@@ -71,7 +72,7 @@ const Student = () => {
                   <h6 className="font-weight-bold">
                     ID:{" "}
                     <span className="font-weight-lighter ml-2">
-                      {student.admission_id}
+                    <Link to={`/update-student/`}>{student.admission_id}</Link>
                     </span>
                   </h6>
                   <h6 className="font-weight-bold">
