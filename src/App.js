@@ -20,6 +20,8 @@ import PreviewSecAssessment from "./pages/results/PreviewSecAssessment";
 import ComputeResult from "./pages/results/Compute";
 import AddPsychomotor from "./pages/results/AddPsychomotor";
 import UpdateStudent from "./pages/students/UpdateStudent";
+import PrintResult from "./pages/results/PrintResult";
+import Login from "./pages/Login";
 
 function App() {
   const currentUserData = {
@@ -31,7 +33,7 @@ function App() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
         <Routes>
-          <Route exact path="" element={<StudentWrapper />}>
+          <Route exact path="dashboard" element={<StudentWrapper />}>
             {/* DashBoard */}
             <Route exact path="" element={<DashBoard />} />
             {/* student routes */}
@@ -60,11 +62,14 @@ function App() {
             />
             <Route exact path="view-exam" element={<PreviewExam />} />
             <Route exact path="compute-scores" element={<ComputeResult/>} />
+            <Route exact path="print-result" element={<PrintResult/>} />
             {/* staff routes */}
             <Route exact path="view-staff" element={<ViewStaff />} />
             <Route exact path="add-staff" element={<AddStaff />} />
           </Route>
+          < Route exact path ="" element={<Login/>} />
         </Routes>
+        
       </Router>
     </LocalizationProvider>
   );

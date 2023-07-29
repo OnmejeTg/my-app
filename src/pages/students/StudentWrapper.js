@@ -58,16 +58,16 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/active-students" end>
+                <NavLink className="collapse-item" to="/dashboard/active-students" end>
                   Active student
                 </NavLink>
-                <NavLink className="collapse-item" to="/add-student">
+                <NavLink className="collapse-item" to="/dashboard/add-student">
                   Add student
                 </NavLink>
-                <NavLink className="collapse-item" to="/update-student">
+                <NavLink className="collapse-item" to="/dashboard/update-student">
                   Update student
                 </NavLink>
-                <NavLink className="collapse-item" to="/upload-students">
+                <NavLink className="collapse-item" to="/dashboard/upload-students">
                   Upload students
                 </NavLink>
               </div>
@@ -92,10 +92,10 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/pay-fee">
+                <NavLink className="collapse-item" to="/dashboard/pay-fee">
                   Pay fee
                 </NavLink>
-                <NavLink className="collapse-item" to="/outstanding-fee" end>
+                <NavLink className="collapse-item" to="/dashboard/outstanding-fee" end>
                   Outstanding
                 </NavLink>
               </div>
@@ -120,26 +120,29 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/add-assessment">
+                <NavLink className="collapse-item" to="/dashboard/add-assessment">
                   Add assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/add-psychomotor">
+                <NavLink className="collapse-item" to="/dashboard/add-psychomotor">
                   Add Psychomotor
                 </NavLink>
-                <NavLink className="collapse-item" to="/view-first-assessment" end>
+                <NavLink className="collapse-item" to="/dashboard/view-first-assessment" end>
                   View First Assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/view-sec-assessment" end>
+                <NavLink className="collapse-item" to="/dashboard/view-sec-assessment" end>
                   View Second Assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/view-exam" end>
+                <NavLink className="collapse-item" to="/dashboard/view-exam" end>
                   View Exam
                 </NavLink>
-                <NavLink className="collapse-item" to="/upload-scores" end>
+                <NavLink className="collapse-item" to="/dashboard/upload-scores" end>
                   Upload Scores
                 </NavLink>
-                <NavLink className="collapse-item" to="/compute-scores" end>
+                <NavLink className="collapse-item" to="/dashboard/compute-scores" end>
                   Compute 
+                </NavLink>
+                <NavLink className="collapse-item" to="/dashboard/print-result" end>
+                  Print result 
                 </NavLink>
                 
               </div>
@@ -164,10 +167,10 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/view-staff">
+                <NavLink className="collapse-item" to="/dashboard/view-staff">
                  View Staff
                 </NavLink>
-                <NavLink className="collapse-item" to="/add-staff" end>
+                <NavLink className="collapse-item" to="/dashboard/add-staff" end>
                   Add Staff
                 </NavLink>
               </div>
