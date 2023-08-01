@@ -22,54 +22,190 @@ import AddPsychomotor from "./pages/results/AddPsychomotor";
 import UpdateStudent from "./pages/students/UpdateStudent";
 import PrintResult from "./pages/results/PrintResult";
 import Login from "./pages/Login";
+import ProtectedRoute from "./utils/ProtectedRoute";
 
 function App() {
   const currentUserData = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
+    name: "John Doe",
+    email: "john.doe@example.com",
     // Add more properties as needed
   };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
         <Routes>
-          <Route exact path="dashboard" element={<StudentWrapper />}>
+          <Route
+            exact
+            path=""
+            element={
+              <ProtectedRoute>
+                <StudentWrapper />
+              </ProtectedRoute>
+            }
+          >
             {/* DashBoard */}
-            <Route exact path="" element={<DashBoard />} />
+            <Route
+              exact
+              path="dashboard"
+              element={
+                <ProtectedRoute>
+                  <DashBoard />
+                </ProtectedRoute>
+              }
+            />
             {/* student routes */}
-            <Route exact path="active-students" element={<ActiveStudent />} />
-            <Route exact path="add-student" element={<AddStudent />} />
-            <Route exact path="upload-students" element={<UploadStudents />} />
-            <Route exact path="update-student" element={<UpdateStudent currentUserData={currentUserData}/>} />
+            <Route
+              exact
+              path="active-students"
+              element={
+                <ProtectedRoute>
+                  <ActiveStudent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="add-student"
+              element={
+                <ProtectedRoute>
+                  <AddStudent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="upload-students"
+              element={
+                <ProtectedRoute>
+                  <UploadStudents />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="update-student"
+              element={
+                <ProtectedRoute>
+                  <UpdateStudent currentUserData />
+                </ProtectedRoute>
+              }
+            />
             {/* this route is to view an individual student */}
-            <Route exact path="view-student/:id" element={<Student />} />
+            <Route
+              exact
+              path="view-student/:id"
+              element={
+                <ProtectedRoute>
+                  <Student />
+                </ProtectedRoute>
+              }
+            />
             {/* fee routes */}
             <Route exact path="pay-fee" element={<PayFee />} />
-            <Route exact path="outstanding-fee" element={<OutstandingFees />} />
+            <Route
+              exact
+              path="outstanding-fee"
+              element={
+                <ProtectedRoute>
+                  <OutstandingFees />
+                </ProtectedRoute>
+              }
+            />
             {/* result routes */}
-            <Route exact path="add-assessment" element={<AddAssesment />} />
-            <Route exact path="add-psychomotor" element={<AddPsychomotor/>} />
-            <Route exact path="upload-scores" element={<UploadAssessment />} />
+            <Route
+              exact
+              path="add-assessment"
+              element={
+                <ProtectedRoute>
+                  <AddAssesment />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="add-psychomotor"
+              element={
+                <ProtectedRoute>
+                  <AddPsychomotor />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="upload-scores"
+              element={
+                <ProtectedRoute>
+                  <UploadAssessment />
+                </ProtectedRoute>
+              }
+            />
             <Route
               exact
               path="view-first-assessment"
-              element={<PreviewAssessment />}
+              element={
+                <ProtectedRoute>
+                  <PreviewAssessment />
+                </ProtectedRoute>
+              }
             />
             <Route
               exact
               path="view-sec-assessment"
-              element={<PreviewSecAssessment/>}
+              element={
+                <ProtectedRoute>
+                  <PreviewSecAssessment />
+                </ProtectedRoute>
+              }
             />
-            <Route exact path="view-exam" element={<PreviewExam />} />
-            <Route exact path="compute-scores" element={<ComputeResult/>} />
-            <Route exact path="print-result" element={<PrintResult/>} />
+            <Route
+              exact
+              path="view-exam"
+              element={
+                <ProtectedRoute>
+                  <PreviewExam />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="compute-scores"
+              element={
+                <ProtectedRoute>
+                  <ComputeResult />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="print-result"
+              element={
+                <ProtectedRoute>
+                  <PrintResult />
+                </ProtectedRoute>
+              }
+            />
             {/* staff routes */}
-            <Route exact path="view-staff" element={<ViewStaff />} />
-            <Route exact path="add-staff" element={<AddStaff />} />
+            <Route
+              exact
+              path="view-staff"
+              element={
+                <ProtectedRoute>
+                  <ViewStaff />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              exact
+              path="add-staff"
+              element={
+                <ProtectedRoute>
+                  <AddStaff />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          < Route exact path ="" element={<Login/>} />
+          <Route exact path="/login" element={<Login />} />
         </Routes>
-        
       </Router>
     </LocalizationProvider>
   );

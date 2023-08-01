@@ -276,7 +276,7 @@ const UpdateStudent = () => {
 
         <Grid item xs={12}>
           <StyledButton type="submit" variant="contained" color="primary">
-            Register
+            Update
           </StyledButton>
         </Grid>
       </Grid>

@@ -1,11 +1,25 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
 const StudentWrapper = () => {
+  const navigate = useNavigate();
+  const [isAuth, setIsAuth] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("access_token") !== null) {
+      setIsAuth(true);
+    }
+  }, [isAuth]);
+
   const toggleSideBar = () => {
     let toggleClass = document.querySelector("body");
     let toggleTop = document.querySelector(".sidebar");
     toggleClass.classList.toggle("sidebar-toggled");
     toggleTop.classList.toggle("toggled");
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("login");
   };
   return (
     <div id="page-top">
@@ -58,16 +72,16 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/dashboard/active-students" end>
+                <NavLink className="collapse-item" to="/active-students" end>
                   Active student
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/add-student">
+                <NavLink className="collapse-item" to="/add-student">
                   Add student
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/update-student">
+                <NavLink className="collapse-item" to="/update-student">
                   Update student
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/upload-students">
+                <NavLink className="collapse-item" to="/upload-students">
                   Upload students
                 </NavLink>
               </div>
@@ -82,7 +96,7 @@ const StudentWrapper = () => {
               aria-expanded="true"
               aria-controls="collapsFee"
             >
-              <i className="fas fa-dollar-sign" ></i>
+              <i className="fas fa-dollar-sign"></i>
               <span>Fee</span>
             </a>
             <div
@@ -92,10 +106,10 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/dashboard/pay-fee">
+                <NavLink className="collapse-item" to="/pay-fee">
                   Pay fee
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/outstanding-fee" end>
+                <NavLink className="collapse-item" to="/outstanding-fee" end>
                   Outstanding
                 </NavLink>
               </div>
@@ -110,7 +124,7 @@ const StudentWrapper = () => {
               aria-expanded="true"
               aria-controls="collapaseResult"
             >
-              <i className="fas fa-award" ></i>
+              <i className="fas fa-award"></i>
               <span>Result</span>
             </a>
             <div
@@ -120,31 +134,38 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/dashboard/add-assessment">
+                <NavLink className="collapse-item" to="/add-assessment">
                   Add assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/add-psychomotor">
+                <NavLink className="collapse-item" to="/add-psychomotor">
                   Add Psychomotor
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/view-first-assessment" end>
+                <NavLink
+                  className="collapse-item"
+                  to="/view-first-assessment"
+                  end
+                >
                   View First Assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/view-sec-assessment" end>
+                <NavLink
+                  className="collapse-item"
+                  to="/view-sec-assessment"
+                  end
+                >
                   View Second Assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/view-exam" end>
+                <NavLink className="collapse-item" to="/view-exam" end>
                   View Exam
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/upload-scores" end>
+                <NavLink className="collapse-item" to="/upload-scores" end>
                   Upload Scores
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/compute-scores" end>
-                  Compute 
+                <NavLink className="collapse-item" to="/compute-scores" end>
+                  Compute
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/print-result" end>
-                  Print result 
+                <NavLink className="collapse-item" to="/print-result" end>
+                  Print result
                 </NavLink>
-                
               </div>
             </div>
           </li>
@@ -157,7 +178,7 @@ const StudentWrapper = () => {
               aria-expanded="true"
               aria-controls="collapseStaff"
             >
-              <i className='fas fa-chalkboard-teacher' ></i>
+              <i className="fas fa-chalkboard-teacher"></i>
               <span>Staff</span>
             </a>
             <div
@@ -167,10 +188,10 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/dashboard/view-staff">
-                 View Staff
+                <NavLink className="collapse-item" to="/view-staff">
+                  View Staff
                 </NavLink>
-                <NavLink className="collapse-item" to="/dashboard/add-staff" end>
+                <NavLink className="collapse-item" to="/add-staff" end>
                   Add Staff
                 </NavLink>
               </div>
@@ -354,9 +375,14 @@ const StudentWrapper = () => {
                   >
                     Cancel
                   </button>
-                  <a className="btn btn-primary" href="login.html">
+                  <button
+                    className="btn btn-primary"
+                    onClick={logout}
+                    type="button"
+                    data-dismiss="modal"
+                  >
                     Logout
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate()
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -31,8 +33,8 @@ const Login = () => {
           localStorage.clear();
           localStorage.setItem("access_token", data.access);
           localStorage.setItem("refresh_token", data.refresh);
+          navigate("/dashboard")
           
-          window.location.href = "/dashboard";
           
         }else{
             toast.error("Invalid Credentials")
@@ -49,7 +51,7 @@ const Login = () => {
             <div className="card-body p-0">
               {/* <!-- Nested Row within Card Body --> */}
               <div className="row">
-                <div className="col-lg-3 d-none d-lg-block bg-login-image"></div>
+                <div className="col-lg-3 d-none d-lg-block "></div>
                 <div className="col-lg-6">
                   <div className="p-5">
                     <div className="text-center">
