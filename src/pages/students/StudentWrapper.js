@@ -47,7 +47,7 @@ const StudentWrapper = () => {
 
           {/* <!-- Nav Item - Dashboard --> */}
           <li className="nav-item ">
-            <NavLink className="nav-link" to="">
+            <NavLink className="nav-link" to="dashboard">
               <i className="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span>
             </NavLink>
@@ -77,9 +77,6 @@ const StudentWrapper = () => {
                 </NavLink>
                 <NavLink className="collapse-item" to="/add-student">
                   Add student
-                </NavLink>
-                <NavLink className="collapse-item" to="/update-student">
-                  Update student
                 </NavLink>
                 <NavLink className="collapse-item" to="/upload-students">
                   Upload students

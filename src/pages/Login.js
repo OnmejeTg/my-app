@@ -3,7 +3,8 @@ import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const [authUser, setAuthUser] = useState("try");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -17,10 +18,20 @@ const Login = () => {
     }));
   };
 
+  const getAuthUser = () => {
+    const authUserUrl = `http://127.0.0.1:8000/student/get-student/${credentials.username}`;
+    fetch(authUserUrl)
+      .then((response) => response.json())
+      .then((data) => 
+        setAuthUser(data)
+      )
+      .catch((error) => console.log("Error", error));
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
-    const url = "http://127.0.0.1:8000/student/login";
-    fetch(url, {
+    const loginUrl = "http://127.0.0.1:8000/student/login";
+    fetch(loginUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -33,11 +44,13 @@ const Login = () => {
           localStorage.clear();
           localStorage.setItem("access_token", data.access);
           localStorage.setItem("refresh_token", data.refresh);
-          navigate("/dashboard")
+          getAuthUser()
+          console.log(authUser)
+          // localStorage.setItem("authUser", authUser);
+          navigate("/dashboard");
           
-          
-        }else{
-            toast.error("Invalid Credentials")
+        } else {
+          toast.error("Invalid Credentials");
         }
       });
   };
@@ -90,12 +103,12 @@ const Login = () => {
                     </form>
                     <hr />
                     <div className="text-center">
-                      <a className="small" href="forgot-password.html">
+                      <a className="small" href="#">
                         Forgot Password?
                       </a>
                     </div>
                     <div className="text-center">
-                      <a className="small" href="register.html">
+                      <a className="small" href="#">
                         Create an Account!
                       </a>
                     </div>
@@ -106,7 +119,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <ToastContainer/>
+      <ToastContainer />
     </div>
   );
 };
