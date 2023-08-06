@@ -47,7 +47,7 @@ const StudentWrapper = () => {
 
           {/* <!-- Nav Item - Dashboard --> */}
           <li className="nav-item ">
-            <NavLink className="nav-link" to="dashboard">
+            <NavLink className="nav-link" to="">
               <i className="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span>
             </NavLink>

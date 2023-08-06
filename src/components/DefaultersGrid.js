@@ -33,7 +33,7 @@ const DefaultersGrid = () => {
       renderCell: (params) => (
         <Link
           onClick={() => handleRowClick(params)}
-          to={`/dashboard/pay-fee?student_id=${params.row.student_id}`}
+          to={`/pay-fee?student_id=${params.row.student_id}`}
         >
           {"Pay"}
         </Link>

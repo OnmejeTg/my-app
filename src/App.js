@@ -41,7 +41,7 @@ function App() {
             }
             >
             {/* DashBoard */}
-            <Route path="dashboard" element={<DashBoard />} />
+            <Route path="" element={<DashBoard />} />
 
             {/* Student routes */}
             <Route path="active-students" element={<ActiveStudent />} />

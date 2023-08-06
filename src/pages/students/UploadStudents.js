@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, Grid, Typography, Input } from "@mui/material";
+import { ToastContainer, toast } from "react-toastify";
 
 const FormContainer = styled.form`
   display: flex;
@@ -36,12 +37,15 @@ const UploadStudents = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Response:", data);
-          // Handle the response data here
+          // console.log("Response:", data);
+          if (data.status === "success"){
+            toast.success(data.message);
+          }
+          
         })
         .catch((error) => {
           console.error("Error:", error);
-          // Handle the error here
+          toast.error(" Upload Failed!");
         });
 
       setSelectedFile(null);
@@ -68,6 +72,7 @@ const UploadStudents = () => {
           </Button>
         </Grid>
       </Grid>
+      <ToastContainer />
     </FormContainer>
   );
 };

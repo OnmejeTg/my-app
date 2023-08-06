@@ -47,7 +47,7 @@ const Login = () => {
           getAuthUser()
           console.log(authUser)
           // localStorage.setItem("authUser", authUser);
-          navigate("/dashboard");
+          navigate("/");
           
         } else {
           toast.error("Invalid Credentials");
