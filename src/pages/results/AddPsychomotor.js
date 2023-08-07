@@ -87,7 +87,7 @@ const AddPsychomotor = () => {
         console.error("Error:", error);
         toast.error("Failed. Please try again.");
       });
-    setSelectedPsychomotor("");
+   
     setRating("");
   };
   return (

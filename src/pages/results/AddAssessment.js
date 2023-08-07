@@ -97,7 +97,7 @@ useFetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`, setStudent
         
       });
   
-    setSelectedCourse("");
+    
     setScore("");
   };
 
