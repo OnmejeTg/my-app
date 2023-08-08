@@ -33,6 +33,7 @@ const PayFee = () => {
   const [student, setStudent] = useState(studentId || "");
   const [portalFees, setPortalFees] = useState([]);
   const [description, setDescription] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   useEffect(() => {
     // Fetch data from API
@@ -41,10 +42,14 @@ const PayFee = () => {
       .then((data) => setPortalFees(data.results))
       .catch((error) => console.log(error));
   }, []);
-  
+
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    setButtonDisabled(true);
+    setTimeout(() => {
+      // Enable the button after the action is complete
+      setButtonDisabled(false);
+    }, 1000);
     const url = "http://127.0.0.1:8000/fee/pay";
     fetch(url, {
       method: "POST",
@@ -56,7 +61,12 @@ const PayFee = () => {
         student: student,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 400) {
+          throw new Error("Payment failed, try again");
+        }
+        return response.json();
+      })
       .then((data) => {
         // Display success notification
         toast.success("Payment successful!");
@@ -66,7 +76,7 @@ const PayFee = () => {
       })
       .catch((error) => {
         // Handle error and display error notification
-        toast.error("Payment failed. Please try again.");
+        toast.error(`${error.message}`);
         console.log(error);
       });
   };
@@ -115,12 +125,17 @@ const PayFee = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <StyledButton type="submit" variant="contained" color="primary">
-            Pay
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={isButtonDisabled}
+          >
+            {isButtonDisabled ? "Processing..." : "pay"}
           </StyledButton>
         </Grid>
       </Grid>
-      <ToastContainer /> 
+      <ToastContainer />
     </FormContainer>
   );
 };

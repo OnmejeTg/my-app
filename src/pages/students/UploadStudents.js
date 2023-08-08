@@ -13,6 +13,7 @@ const FormContainer = styled.form`
 const UploadStudents = () => {
   
   const [selectedFile, setSelectedFile] = useState(null);
+  const [isButtonDisabled, setButtonDisabled] = useState(false)
 
   // const handleFileChange = (event) => {
   //   setSelectedFile(event.target.files[0]);
@@ -21,7 +22,11 @@ const UploadStudents = () => {
   const handleUpload = (event) => {
     event.preventDefault();
     // Handle form submission here
-    console.log(selectedFile);
+    // console.log(selectedFile);
+    setButtonDisabled(true)
+    setInterval(() => {
+      setButtonDisabled(false)
+    }, 1500);
 
     if (selectedFile) {
       const formData = new FormData();
@@ -35,7 +40,11 @@ const UploadStudents = () => {
         headers: headers,
         body: formData,
       })
-        .then((response) => response.json())
+        .then((response) =>  { 
+          if (response.status !== 201){
+            throw new Error ("Upload failed")
+          }
+          return response.json()})
         .then((data) => {
           // console.log("Response:", data);
           if (data.status === "success"){
@@ -45,7 +54,7 @@ const UploadStudents = () => {
         })
         .catch((error) => {
           console.error("Error:", error);
-          toast.error(" Upload Failed!");
+          toast.error(`${error.message}`);
         });
 
       setSelectedFile(null);
@@ -67,8 +76,8 @@ const UploadStudents = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <Button type="submit" variant="contained" color="primary">
-            Upload
+          <Button type="submit" variant="contained" color="primary" disabled={isButtonDisabled}>
+            {isButtonDisabled ? "Processing..." :"Upload" }
           </Button>
         </Grid>
       </Grid>

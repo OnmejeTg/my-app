@@ -44,6 +44,8 @@ function AddStudent() {
   const [dateofAdmission, setDateofAdmission] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
 
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
+
   useEffect(() => {
     // Fetch data from API
     fetch("http://127.0.0.1:8000/setup/get-class")
@@ -54,17 +56,23 @@ function AddStudent() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-// TODO:set default image
+    // TODO:set default image
     const getDefaultImage = () => {
       // Return your default image here
       // For example, you can provide a URL or import a default image from your project
-      console.log("../../../public/default.png")
+      console.log("../../../public/default.png");
     };
+
+    setButtonDisabled(true)
+
+    setInterval(() => {
+      setButtonDisabled(false)
+    }, 1500);
 
     const imageToSend = selectedFile ? selectedFile : getDefaultImage();
 
     if (imageToSend) {
-      console.log(imageToSend);
+      // console.log(imageToSend);
       const formData = new FormData();
       formData.append("profile_pics", imageToSend);
       formData.append("surname", surname);
@@ -294,8 +302,13 @@ function AddStudent() {
           />
         </Grid>
         <Grid item xs={12}>
-          <StyledButton type="submit" variant="contained" color="primary">
-            Register
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={isButtonDisabled}
+          >
+            {isButtonDisabled ? "Processing..." : "Register"}
           </StyledButton>
         </Grid>
       </Grid>
