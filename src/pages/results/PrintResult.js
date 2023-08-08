@@ -18,8 +18,14 @@ const StyledButton = styled(Button)`
 const PrintResult = () => {
   const [student, setStudent] = useState("");
   const [paymentRef, setPaymentRef] = useState("");
+  const [isButtonDisabled, setButtonDisabled] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
+    setButtonDisabled(true);
+    setTimeout(() => {
+      // Enable the button after the action is complete
+      setButtonDisabled(false);
+    }, 1500);
     const url = "http://127.0.0.1:8000/result/print-result";
     fetch(url, {
       method: "POST",
@@ -42,7 +48,6 @@ const PrintResult = () => {
       })
       .then((blob) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
-
         const link = document.createElement("a");
         link.href = url;
         link.download = `${student}_result.pdf`;
@@ -50,15 +55,12 @@ const PrintResult = () => {
         link.click();
 
         link.parentNode.removeChild(link);
-
-        // Display success notification
-        toast.success("Payment successful!");
+        toast.success("Successful!");
 
         setStudent("");
         setPaymentRef("");
       })
       .catch((error) => {
-        // Handle error and display error notification
         toast.error(`${error.message}`);
         // console.log(error.message);
       });
@@ -95,8 +97,13 @@ const PrintResult = () => {
           />
         </Grid>
         <Grid item xs={12}>
-          <StyledButton type="submit" variant="contained" color="primary">
-            Download
+          <StyledButton
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={isButtonDisabled}
+          >
+            {isButtonDisabled ? "Processing..." : "Submit"}
           </StyledButton>
         </Grid>
       </Grid>
