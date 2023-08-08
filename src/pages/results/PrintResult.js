@@ -17,6 +17,7 @@ const StyledButton = styled(Button)`
 
 const PrintResult = () => {
   const [student, setStudent] = useState("");
+  const [paymentRef, setPaymentRef] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
     const url = "http://127.0.0.1:8000/result/print-result";
@@ -27,15 +28,24 @@ const PrintResult = () => {
       },
       body: JSON.stringify({
         student_id: student,
+        payment_ref: paymentRef,
       }),
     })
-      .then((response) => response.blob())
+      .then((response) => {
+        if (response.status === 400) {
+          throw new Error("Invalid Payment Ref, try again");
+        } else if (response.status === 404) {
+          throw new Error("Student not found, try again");
+        } else {
+          return response.blob();
+        }
+      })
       .then((blob) => {
         const url = window.URL.createObjectURL(new Blob([blob]));
 
         const link = document.createElement("a");
         link.href = url;
-        link.download = "result.pdf";
+        link.download = `${student}_result.pdf`;
         document.body.appendChild(link);
         link.click();
 
@@ -45,11 +55,12 @@ const PrintResult = () => {
         toast.success("Payment successful!");
 
         setStudent("");
+        setPaymentRef("");
       })
       .catch((error) => {
         // Handle error and display error notification
-        toast.error("Payment failed. Please try again.");
-        console.log(error);
+        toast.error(`${error.message}`);
+        // console.log(error.message);
       });
   };
 
@@ -66,6 +77,18 @@ const PrintResult = () => {
             variant="outlined"
             onChange={(event) => {
               setStudent(event.target.value);
+            }}
+            fullWidth
+            required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Payment Ref"
+            value={paymentRef}
+            variant="outlined"
+            onChange={(event) => {
+              setPaymentRef(event.target.value);
             }}
             fullWidth
             required
