@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
-  const [authUser, setAuthUser] = useState("try");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -49,11 +48,11 @@ const Login = () => {
           localStorage.setItem("refresh_token", data.refresh);
           localStorage.setItem("user_type", data.user_type);
 
-          if (data.user_type == "form master"){
+          if (data.user_type === "form master"){
             navigate("/result");
-          }else if (data.user_type == "admin") {
+          }else if (data.user_type === "admin") {
             navigate("/");
-          } else if( data.user_type == "student")  {
+          } else if( data.user_type === "student")  {
             navigate("/student")
           }
           

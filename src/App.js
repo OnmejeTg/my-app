@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
-import ProtectedRoute from "./utils/ProtectedRoute";
+
 import AdminProtected from "./utils/AdminProtected";
 
 import AdminWrapper from "./pages/admin/AdminWrapper";
@@ -39,9 +39,9 @@ function App() {
           <Route
             path=""
             element={
-              <ProtectedRoute>
+              <AdminProtected>
                 <AdminWrapper />
-              </ProtectedRoute>
+              </AdminProtected>
             }
           >
             {/* DashBoard */}
@@ -125,18 +125,7 @@ function App() {
                 </AdminProtected>
               }
             />
-          </Route>
-
-              {/* Result routes */}
-          <Route
-            path="result/"
-            element={
-              <StaffProtected>
-                <ResultWarraper />
-              </StaffProtected>
-            }
-          >
-            
+            {/* Result routes */}
             <Route
               path="add-assessment"
               element={
@@ -202,15 +191,97 @@ function App() {
               }
             />
           </Route>
-          <Route path="student/" element={<StudentProtected><StudentWrapper/></StudentProtected>} >
+
+          {/* Result routes */}
           <Route
+            path="result/"
+            element={
+              <StaffProtected>
+                <ResultWarraper />
+              </StaffProtected>
+            }
+          >
+            <Route
+              path="add-assessment"
+              element={
+                <StaffProtected>
+                  <AddAssessment />
+                </StaffProtected>
+              }
+            />
+            <Route
+              path="add-psychomotor"
+              element={
+                <StaffProtected>
+                  <AddPsychomotor />
+                </StaffProtected>
+              }
+            />
+            <Route
+              path="upload-scores"
+              element={
+                <StaffProtected>
+                  <UploadAssessment />
+                </StaffProtected>
+              }
+            />
+            <Route
+              path="view-first-assessment"
+              element={
+                <StaffProtected>
+                  <PreviewAssessment />
+                </StaffProtected>
+              }
+            />
+            <Route
+              path="view-sec-assessment"
+              element={
+                <StaffProtected>
+                  <PreviewSecAssessment />
+                </StaffProtected>
+              }
+            />
+            <Route
+              path="view-exam"
+              element={
+                <StaffProtected>
+                  <PreviewExam />
+                </StaffProtected>
+              }
+            />
+            <Route
+              path="compute-scores"
+              element={
+                <AdminProtected>
+                  <ComputeResult />
+                </AdminProtected>
+              }
+            />
+            <Route
               path="print-result"
               element={
                 <StudentProtected>
                   <PrintResult />
                 </StudentProtected>
               }
-            /> 
+            />
+          </Route>
+          <Route
+            path="student/"
+            element={
+              <StudentProtected>
+                <StudentWrapper />
+              </StudentProtected>
+            }
+          >
+            <Route
+              path="print-result"
+              element={
+                <StudentProtected>
+                  <PrintResult />
+                </StudentProtected>
+              }
+            />
           </Route>
 
           <Route path="login" element={<Login />} />
