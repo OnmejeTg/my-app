@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 
-const StudentWrapper = () => {
+const ResultWarraper = () => {
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
   useEffect(() => {
@@ -19,7 +19,7 @@ const StudentWrapper = () => {
 
   const logout = () => {
     localStorage.clear();
-    navigate("login");
+    navigate("/login");
   };
   return (
     <div id="page-top">
@@ -46,14 +46,14 @@ const StudentWrapper = () => {
           <hr className="sidebar-divider my-0" />
 
           {/* <!-- Nav Item - Dashboard --> */}
-          <li className="nav-item ">
+          {/* <li className="nav-item ">
             <NavLink className="nav-link" to="">
               <i className="fas fa-fw fa-tachometer-alt"></i>
               <span>Dashboard</span>
             </NavLink>
-          </li>
+          </li> */}
 
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
@@ -83,8 +83,8 @@ const StudentWrapper = () => {
                 </NavLink>
               </div>
             </div>
-          </li>
-          <li className="nav-item">
+          </li> */}
+          {/* <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
@@ -111,7 +111,7 @@ const StudentWrapper = () => {
                 </NavLink>
               </div>
             </div>
-          </li>
+          </li> */}
           <li className="nav-item">
             <a
               className="nav-link collapsed"
@@ -131,42 +131,42 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/add-assessment">
+                <NavLink className="collapse-item" to="add-assessment">
                   Add assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/add-psychomotor">
+                <NavLink className="collapse-item" to="add-psychomotor">
                   Add Psychomotor
                 </NavLink>
                 <NavLink
                   className="collapse-item"
-                  to="/view-first-assessment"
+                  to="view-first-assessment"
                   end
                 >
                   View First Assessment
                 </NavLink>
                 <NavLink
                   className="collapse-item"
-                  to="/view-sec-assessment"
+                  to="view-sec-assessment"
                   end
                 >
                   View Second Assessment
                 </NavLink>
-                <NavLink className="collapse-item" to="/view-exam" end>
+                <NavLink className="collapse-item" to="view-exam" end>
                   View Exam
                 </NavLink>
-                <NavLink className="collapse-item" to="/upload-scores" end>
+                <NavLink className="collapse-item" to="upload-scores" end>
                   Upload Scores
                 </NavLink>
-                <NavLink className="collapse-item" to="/compute-scores" end>
+                {/* <NavLink className="collapse-item" to="/compute-scores" end>
                   Compute
                 </NavLink>
                 <NavLink className="collapse-item" to="/print-result" end>
                   Print result
-                </NavLink>
+                </NavLink> */}
               </div>
             </div>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
@@ -193,7 +193,7 @@ const StudentWrapper = () => {
                 </NavLink>
               </div>
             </div>
-          </li>
+          </li> */}
 
           {/* <!-- Sidebar Toggler (Sidebar) --> */}
           <div className="text-center d-none d-md-inline">
@@ -294,7 +294,7 @@ const StudentWrapper = () => {
                     aria-expanded="false"
                   >
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                      Douglas McGee
+                     Welcome Form Master
                     </span>
                     <img
                       className="img-profile rounded-circle"
@@ -401,4 +401,4 @@ const StudentWrapper = () => {
   );
 };
 
-export default StudentWrapper;
+export default ResultWarraper;

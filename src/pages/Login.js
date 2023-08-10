@@ -18,19 +18,20 @@ const Login = () => {
     }));
   };
 
-  const getAuthUser = () => {
-    const authUserUrl = `http://127.0.0.1:8000/student/get-student/${credentials.username}`;
-    fetch(authUserUrl)
-      .then((response) => response.json())
-      .then((data) => 
-        setAuthUser(data)
-      )
-      .catch((error) => console.log("Error", error));
-  };
+  // const getAuthUser = () => {
+  //   const authUserUrl = `http://127.0.0.1:8000/student/get-student/${credentials.username}`;
+  //   fetch(authUserUrl)
+  //     .then((response) => response.json())
+  //     .then((data) =>
+  //       {console.log(data)
+  //       setAuthUser(data)}
+  //     )
+  //     .catch((error) => console.log("Error", error));
+  // };
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const loginUrl = "http://127.0.0.1:8000/student/login";
+    const loginUrl = "http://127.0.0.1:8000/setup/general-login";
     fetch(loginUrl, {
       method: "POST",
       headers: {
@@ -40,15 +41,23 @@ const Login = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        // console.log(data);
         if (data.status === "success") {
+          
           localStorage.clear();
           localStorage.setItem("access_token", data.access);
           localStorage.setItem("refresh_token", data.refresh);
-          getAuthUser()
-          console.log(authUser)
-          // localStorage.setItem("authUser", authUser);
-          navigate("/");
+          localStorage.setItem("user_type", data.user_type);
+
+          if (data.user_type == "form master"){
+            navigate("/result");
+          }else if (data.user_type == "admin") {
+            navigate("/");
+          } else if( data.user_type == "student")  {
+            navigate("/student")
+          }
           
+          // navigate("/");
         } else {
           toast.error("Invalid Credentials");
         }
