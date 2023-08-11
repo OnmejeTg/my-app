@@ -1,15 +1,17 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "./AuthProvider";
 
 const AdminProtected = (props) => {
+  const {auth} = useContext(AuthContext)
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const checkUserToken = () => {
-    const userToken = localStorage.getItem("access_token");
-    const user_type = localStorage.getItem("user_type")
-    if (!userToken || userToken === "undefined" || user_type !== "admin") {
+    const userToken = auth.accessToken
+    const userType = auth.userType
+
+    if (!userToken || userToken === "undefined" || userType !== "admin") {
       setIsLoggedIn(false);
       return navigate("/login");
     }
@@ -21,7 +23,7 @@ const AdminProtected = (props) => {
   }, [isLoggedIn]);
 
 
-  return <React.Fragment>{isLoggedIn ? props.children : null}</React.Fragment>;
+  return isLoggedIn ? props.children : null;
 };
 
 export default AdminProtected;

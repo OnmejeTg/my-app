@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AuthContext from "../utils/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/axios";
+
+const LOGIN_URL = "/setup/general-login";
 
 const Login = () => {
+  const { auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [name, setName] = useState("name");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -17,16 +24,39 @@ const Login = () => {
     }));
   };
 
-  // const getAuthUser = () => {
-  //   const authUserUrl = `http://127.0.0.1:8000/student/get-student/${credentials.username}`;
-  //   fetch(authUserUrl)
-  //     .then((response) => response.json())
-  //     .then((data) =>
-  //       {console.log(data)
-  //       setAuthUser(data)}
-  //     )
-  //     .catch((error) => console.log("Error", error));
-  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await axios.post(
+        LOGIN_URL,
+        JSON.stringify(credentials),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
+      );
+      // console.log (JSON.stringify(response.data))
+      const accessToken = response?.data?.access
+      const userType = response?.data?.user_type
+      setAuth({credentials, userType, accessToken})
+     
+      if (userType === "form master") {
+        navigate("/result");
+      } else if (userType === "admin") {
+        navigate("/");
+      } else if (userType === "student") {
+        navigate("/student");
+      }
+     
+      // setCredentials({
+      //   username: "",
+      //   password: "",  
+      // });
+    } catch (error) {
+      console.log(JSON.stringify(error))
+    }
+  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -42,25 +72,33 @@ const Login = () => {
       .then((data) => {
         // console.log(data);
         if (data.status === "success") {
-          
           localStorage.clear();
           localStorage.setItem("access_token", data.access);
           localStorage.setItem("refresh_token", data.refresh);
           localStorage.setItem("user_type", data.user_type);
 
-          if (data.user_type === "form master"){
+          if (data.user_type === "form master") {
             navigate("/result");
-          }else if (data.user_type === "admin") {
+          } else if (data.user_type === "admin") {
             navigate("/");
-          } else if( data.user_type === "student")  {
-            navigate("/student")
+          } else if (data.user_type === "student") {
+            navigate("/student");
           }
-          
+
           // navigate("/");
         } else {
           toast.error("Invalid Credentials");
         }
       });
+
+    const authUserUrl = `http://127.0.0.1:8000/student/get-student/${credentials.username}`;
+    fetch(authUserUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        setName("jonexs");
+      })
+      .catch((error) => console.log("Error", error));
+    console.log(name);
   };
 
   return (
@@ -78,7 +116,7 @@ const Login = () => {
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">Welcome Back!</h1>
                     </div>
-                    <form className="user" onSubmit={handleLogin}>
+                    <form className="user" onSubmit={handleSubmit}>
                       <div className="form-group">
                         <input
                           type="text"

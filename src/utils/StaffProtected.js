@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "./AuthProvider";
 
 const StaffProtected = (props) => {
+  const {auth} = useContext(AuthContext)
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const checkUserToken = () => {
-    const userToken = localStorage.getItem("access_token");
-    const userType = localStorage.getItem("user_type");
+    const userToken = auth.accessToken
+    const userType = auth.userType
 
     const isValidUserType = ["form master", "admin"].includes(userType);
 

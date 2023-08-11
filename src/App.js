@@ -36,255 +36,43 @@ function App() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Router>
         <Routes>
-          <Route
-            path=""
-            element={
-              <AdminProtected>
-                <AdminWrapper />
-              </AdminProtected>
-            }
-          >
-            {/* DashBoard */}
-            <Route path="" element={<DashBoard />} />
-
-            {/* Student routes */}
-            <Route
-              path="active-students"
-              element={
-                <AdminProtected>
-                  <ActiveStudent />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="add-student"
-              element={
-                <AdminProtected>
-                  <AddStudent />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="upload-students"
-              element={
-                <AdminProtected>
-                  <UploadStudents />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="update-student"
-              element={
-                <AdminProtected>
-                  <UpdateStudent />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="view-student/:id"
-              element={
-                <AdminProtected>
-                  <Student />
-                </AdminProtected>
-              }
-            />
-
-            {/* Fee routes */}
-
-            <Route
-              path="pay-fee"
-              element={
-                <AdminProtected>
-                  <PayFee />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="outstanding-fee"
-              element={
-                <AdminProtected>
-                  <OutstandingFees />
-                </AdminProtected>
-              }
-            />
-
-            {/* Staff routes */}
-            <Route
-              path="view-staff"
-              element={
-                <AdminProtected>
-                  <ViewStaff />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="add-staff"
-              element={
-                <AdminProtected>
-                  <AddStaff />
-                </AdminProtected>
-              }
-            />
-            {/* Result routes */}
-            <Route
-              path="add-assessment"
-              element={
-                <StaffProtected>
-                  <AddAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="add-psychomotor"
-              element={
-                <StaffProtected>
-                  <AddPsychomotor />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="upload-scores"
-              element={
-                <StaffProtected>
-                  <UploadAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="view-first-assessment"
-              element={
-                <StaffProtected>
-                  <PreviewAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="view-sec-assessment"
-              element={
-                <StaffProtected>
-                  <PreviewSecAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="view-exam"
-              element={
-                <StaffProtected>
-                  <PreviewExam />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="compute-scores"
-              element={
-                <AdminProtected>
-                  <ComputeResult />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="print-result"
-              element={
-                <StudentProtected>
-                  <PrintResult />
-                </StudentProtected>
-              }
-            />
-          </Route>
-
-          {/* Result routes */}
-          <Route
-            path="result/"
-            element={
-              <StaffProtected>
-                <ResultWarraper />
-              </StaffProtected>
-            }
-          >
-            <Route
-              path="add-assessment"
-              element={
-                <StaffProtected>
-                  <AddAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="add-psychomotor"
-              element={
-                <StaffProtected>
-                  <AddPsychomotor />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="upload-scores"
-              element={
-                <StaffProtected>
-                  <UploadAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="view-first-assessment"
-              element={
-                <StaffProtected>
-                  <PreviewAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="view-sec-assessment"
-              element={
-                <StaffProtected>
-                  <PreviewSecAssessment />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="view-exam"
-              element={
-                <StaffProtected>
-                  <PreviewExam />
-                </StaffProtected>
-              }
-            />
-            <Route
-              path="compute-scores"
-              element={
-                <AdminProtected>
-                  <ComputeResult />
-                </AdminProtected>
-              }
-            />
-            <Route
-              path="print-result"
-              element={
-                <StudentProtected>
-                  <PrintResult />
-                </StudentProtected>
-              }
-            />
-          </Route>
-          <Route
-            path="student/"
-            element={
-              <StudentProtected>
-                <StudentWrapper />
-              </StudentProtected>
-            }
-          >
-            <Route
-              path="print-result"
-              element={
-                <StudentProtected>
-                  <PrintResult />
-                </StudentProtected>
-              }
-            />
-          </Route>
-
           <Route path="login" element={<Login />} />
+
+          <Route path="student/" element={<StudentProtected><StudentWrapper/></StudentProtected>}>
+            <Route path="print-result" element={<PrintResult />} />
+          </Route>
+
+          <Route path="result/" element={<StaffProtected><ResultWarraper /></StaffProtected>}>
+            <Route path="add-assessment" element={<AddAssessment />} />
+            <Route path="add-psychomotor" element={<AddPsychomotor />} />
+            <Route path="upload-scores" element={<UploadAssessment />} />
+            <Route path="view-first-assessment" element={<PreviewAssessment />} />
+            <Route path="view-sec-assessment" element={<PreviewSecAssessment />} />
+            <Route path="view-exam" element={<PreviewExam />} />
+            <Route path="compute-scores" element={<ComputeResult />} />
+            <Route path="print-result" element={<PrintResult />} />
+          </Route>
+
+          <Route path="" element={<AdminProtected><AdminWrapper /></AdminProtected>}>
+            <Route path="/" element={<DashBoard/>} />
+            <Route path="active-students" element={<ActiveStudent />} />
+            <Route path="add-student" element={<AddStudent />} />
+            <Route path="upload-students" element={<UploadStudents />} />
+            <Route path="update-student" element={<UpdateStudent />} />
+            <Route path="view-student/:id" element={<Student />} />
+            <Route path="pay-fee" element={<PayFee />} />
+            <Route path="outstanding-fee" element={<OutstandingFees />} />
+            <Route path="view-staff" element={<ViewStaff />} />
+            <Route path="add-staff" element={<AddStaff />} />
+            <Route path="add-assessment" element={<AddAssessment />} />
+            <Route path="add-psychomotor" element={<AddPsychomotor />} />
+            <Route path="upload-scores" element={<UploadAssessment />} />
+            <Route path="view-first-assessment" element={<PreviewAssessment />} />
+            <Route path="view-sec-assessment" element={<PreviewSecAssessment />} />
+            <Route path="view-exam" element={<PreviewExam />} />
+            <Route path="compute-scores" element={<ComputeResult />} />
+            <Route path="print-result" element={<PrintResult />} />
+          </Route>
         </Routes>
       </Router>
     </LocalizationProvider>
