@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 
 const Login = () => {
-  const { setAuth } = useContext(AuthContext);
+  const {auth, setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [credentials, setCredentials] = useState({
@@ -24,7 +24,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userResponse = await axios.get(`/student/get-student/${credentials.username}`);
+      const userResponse = await axios.get(`/setup/get-user/${credentials.username}`);
       const user = userResponse?.data;
 
       const loginResponse = await axios.post("/setup/general-login", JSON.stringify(credentials), {
@@ -35,7 +35,7 @@ const Login = () => {
       const { access: accessToken, user_type: userType } = loginResponse?.data;
 
       setAuth({ user, userType, accessToken });
-
+      console.log(auth)
       if (userType === "form master") {
         navigate("/result");
       } else if (userType === "admin") {

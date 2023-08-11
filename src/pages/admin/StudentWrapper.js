@@ -296,7 +296,7 @@ const StudentWrapper = () => {
                     aria-expanded="false"
                   >
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                     Welcome {auth.user.surname} {auth.user.othernames}
+                     Welcome {auth.user.user_info.surname} {auth.user.user_info.othernames}
                     </span>
                     <img
                       className="img-profile rounded-circle"

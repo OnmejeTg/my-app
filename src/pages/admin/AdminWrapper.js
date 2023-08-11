@@ -297,7 +297,7 @@ const AdminWrapper = () => {
                     aria-expanded="false"
                   >
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                      {/* {auth.userType} */}
+                   Welcome {auth.user.user_info.surname} {auth.user.user_info.othernames}
                     </span>
                     <img
                       className="img-profile rounded-circle"
