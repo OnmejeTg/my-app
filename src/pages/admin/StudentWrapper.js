@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState , useContext} from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import AuthContext from "../../utils/AuthProvider";
 
 const StudentWrapper = () => {
+  const {auth} = useContext(AuthContext)
   const navigate = useNavigate();
   const [isAuth, setIsAuth] = useState(false);
   useEffect(() => {
@@ -294,7 +296,7 @@ const StudentWrapper = () => {
                     aria-expanded="false"
                   >
                     <span className="mr-2 d-none d-lg-inline text-gray-600 small">
-                     Welcome Student
+                     Welcome {auth.user.surname} {auth.user.othernames}
                     </span>
                     <img
                       className="img-profile rounded-circle"

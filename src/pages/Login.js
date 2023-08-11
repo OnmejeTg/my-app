@@ -1,16 +1,13 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import AuthContext from "../utils/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 
-const LOGIN_URL = "/setup/general-login";
-
 const Login = () => {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const [name, setName] = useState("name");
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -26,21 +23,19 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     try {
-      const response = await axios.post(
-        LOGIN_URL,
-        JSON.stringify(credentials),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        }
-      );
-      // console.log (JSON.stringify(response.data))
-      const accessToken = response?.data?.access
-      const userType = response?.data?.user_type
-      setAuth({credentials, userType, accessToken})
-     
+      const userResponse = await axios.get(`/student/get-student/${credentials.username}`);
+      const user = userResponse?.data;
+
+      const loginResponse = await axios.post("/setup/general-login", JSON.stringify(credentials), {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      });
+
+      const { access: accessToken, user_type: userType } = loginResponse?.data;
+
+      setAuth({ user, userType, accessToken });
+
       if (userType === "form master") {
         navigate("/result");
       } else if (userType === "admin") {
@@ -48,67 +43,23 @@ const Login = () => {
       } else if (userType === "student") {
         navigate("/student");
       }
-     
-      // setCredentials({
-      //   username: "",
-      //   password: "",  
-      // });
-    } catch (error) {
-      console.log(JSON.stringify(error))
-    }
-  };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    const loginUrl = "http://127.0.0.1:8000/setup/general-login";
-    fetch(loginUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(credentials),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // console.log(data);
-        if (data.status === "success") {
-          localStorage.clear();
-          localStorage.setItem("access_token", data.access);
-          localStorage.setItem("refresh_token", data.refresh);
-          localStorage.setItem("user_type", data.user_type);
-
-          if (data.user_type === "form master") {
-            navigate("/result");
-          } else if (data.user_type === "admin") {
-            navigate("/");
-          } else if (data.user_type === "student") {
-            navigate("/student");
-          }
-
-          // navigate("/");
-        } else {
-          toast.error("Invalid Credentials");
-        }
+      setCredentials({
+        username: "",
+        password: "",
       });
-
-    const authUserUrl = `http://127.0.0.1:8000/student/get-student/${credentials.username}`;
-    fetch(authUserUrl)
-      .then((response) => response.json())
-      .then((data) => {
-        setName("jonexs");
-      })
-      .catch((error) => console.log("Error", error));
-    console.log(name);
+    } catch (error) {
+      console.error("An error occurred:", error);
+      // Handle error display or toast messages here
+    }
   };
 
   return (
     <div className="container">
-      {/* <!-- Outer Row --> */}
       <div className="row justify-content-center">
         <div className="col-xl-10 col-lg-12 col-md-9">
           <div className="card o-hidden border-0 shadow-lg my-5">
             <div className="card-body p-0">
-              {/* <!-- Nested Row within Card Body --> */}
               <div className="row">
                 <div className="col-lg-3 d-none d-lg-block "></div>
                 <div className="col-lg-6">
@@ -140,10 +91,7 @@ const Login = () => {
                           onChange={handleInputChange}
                         />
                       </div>
-                      <button
-                        type="submit"
-                        className="btn btn-primary btn-user btn-block"
-                      >
+                      <button type="submit" className="btn btn-primary btn-user btn-block">
                         Login
                       </button>
                     </form>
