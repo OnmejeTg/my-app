@@ -5,14 +5,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 
 import AdminProtected from "./utils/AdminProtected";
-
+import StudentDash from "./pages/student/Student";
 import AdminWrapper from "./pages/admin/AdminWrapper";
-import StudentWrapper from "./pages/admin/StudentWrapper";
+import StudentWrapper from "./pages/student/StudentWrapper";
 import AddStudent from "./pages/admin/AddStudent";
 import UploadStudents from "./pages/admin/UploadStudents";
 import ActiveStudent from "./pages/admin/ActiveStudents";
 import Student from "./pages/admin/Student";
-import DashBoard from "./pages/DashBoard";
+import DashBoard from "./components/DashBoard";
 import PayFee from "./pages/fees/PayFee";
 import OutstandingFees from "./pages/fees/OutstandingFees";
 import AddAssessment from "./pages/results/AddAssessment";
@@ -26,10 +26,12 @@ import ComputeResult from "./pages/results/Compute";
 import AddPsychomotor from "./pages/results/AddPsychomotor";
 import UpdateStudent from "./pages/admin/UpdateStudent";
 import PrintResult from "./pages/results/PrintResult";
-import Login from "./pages/Login";
+import Login from "./components/Login";
 import StaffProtected from "./utils/StaffProtected";
 import StudentProtected from "./utils/StudentProtected";
 import ResultWarraper from "./pages/results/ResultWrapper";
+import UpdateStudentDash from "./pages/student/UpdateStudent";
+import ComingSoon from "./components/ComingSoon";
 
 function App() {
   return (
@@ -40,6 +42,15 @@ function App() {
 
           <Route path="student/" element={<StudentProtected><StudentWrapper/></StudentProtected>}>
             <Route path="print-result" element={<PrintResult />} />
+            <Route path="dashboard" element={<StudentDash/>} />
+            <Route path="update" element={<UpdateStudentDash/>}/>
+            <Route path="pay-fee" element={<ComingSoon/>} />
+            <Route path="outstanding-fee" element={<ComingSoon/>} />
+            <Route path="attendance" element={<ComingSoon/>} />
+            <Route path="event" element={<ComingSoon/>} />
+            <Route path="annoucement" element={<ComingSoon/>} />
+            <Route path="contact" element={<ComingSoon/>} />
+            {/* <Route path="event" element={<ComingSoon/>} /> */}
           </Route>
 
           <Route path="result/" element={<StaffProtected><ResultWarraper /></StaffProtected>}>

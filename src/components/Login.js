@@ -35,7 +35,8 @@ const Login = () => {
       const { access: accessToken, user_type: userType } = loginResponse?.data;
 
       setAuth({ user, userType, accessToken });
-      console.log(auth)
+      localStorage.setItem("auth", JSON.stringify({ user, userType, accessToken }));
+      // console.log(auth)
       if (userType === "form master") {
         navigate("/result");
       } else if (userType === "admin") {

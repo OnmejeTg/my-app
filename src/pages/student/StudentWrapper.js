@@ -23,6 +23,7 @@ const StudentWrapper = () => {
     localStorage.clear();
     navigate("/login");
   };
+  
   return (
     <div id="page-top">
       <div id="wrapper">
@@ -48,14 +49,8 @@ const StudentWrapper = () => {
           <hr className="sidebar-divider my-0" />
 
           {/* <!-- Nav Item - Dashboard --> */}
-          {/* <li className="nav-item ">
-            <NavLink className="nav-link" to="">
-              <i className="fas fa-fw fa-tachometer-alt"></i>
-              <span>Dashboard</span>
-            </NavLink>
-          </li> */}
-
-          {/* <li className="nav-item">
+          
+          <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
@@ -65,7 +60,7 @@ const StudentWrapper = () => {
               aria-controls="collapseStudent"
             >
               <i className="fas fa-user-graduate"></i>
-              <span>Students</span>
+              <span>Student</span>
             </a>
             <div
               id="collapseStudent"
@@ -74,19 +69,13 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/active-students" end>
-                  Active student
-                </NavLink>
-                <NavLink className="collapse-item" to="/add-student">
-                  Add student
-                </NavLink>
-                <NavLink className="collapse-item" to="/upload-students">
-                  Upload students
+                <NavLink className="collapse-item" to="dashboard" end>
+                  Dashboard
                 </NavLink>
               </div>
             </div>
-          </li> */}
-          {/* <li className="nav-item">
+          </li>
+          <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
@@ -105,15 +94,15 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/pay-fee">
+                <NavLink className="collapse-item" to="pay-fee">
                   Pay fee
                 </NavLink>
-                <NavLink className="collapse-item" to="/outstanding-fee" end>
+                <NavLink className="collapse-item" to="outstanding-fee" end>
                   Outstanding
                 </NavLink>
               </div>
             </div>
-          </li> */}
+          </li>
           <li className="nav-item">
             <a
               className="nav-link collapsed"
@@ -124,7 +113,7 @@ const StudentWrapper = () => {
               aria-controls="collapaseResult"
             >
               <i className="fas fa-award"></i>
-              <span>Result</span>
+              <span>Academics</span>
             </a>
             <div
               id="collapaseResult"
@@ -133,69 +122,51 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                {/* <NavLink className="collapse-item" to="add-assessment">
-                  Add assessment
-                </NavLink>
-                <NavLink className="collapse-item" to="add-psychomotor">
-                  Add Psychomotor
-                </NavLink>
-                <NavLink
-                  className="collapse-item"
-                  to="view-first-assessment"
-                  end
-                >
-                  View First Assessment
-                </NavLink>
-                <NavLink
-                  className="collapse-item"
-                  to="view-sec-assessment"
-                  end
-                >
-                  View Second Assessment
-                </NavLink>
-                <NavLink className="collapse-item" to="view-exam" end>
-                  View Exam
-                </NavLink>
-                <NavLink className="collapse-item" to="upload-scores" end>
-                  Upload Scores
-                </NavLink>
-                <NavLink className="collapse-item" to="/compute-scores" end>
-                  Compute
-                </NavLink> */}
                 <NavLink className="collapse-item" to="print-result" end>
                   Print result
+                </NavLink>
+                <NavLink className="collapse-item" to="attendance" end>
+                  Attendance
                 </NavLink>
               </div>
             </div>
           </li>
-          {/* <li className="nav-item">
+          <li className="nav-item">
             <a
               className="nav-link collapsed"
               href="#"
               data-toggle="collapse"
-              data-target="#collapseStaff"
+              data-target="#collapseExtra"
               aria-expanded="true"
-              aria-controls="collapseStaff"
+              aria-controls="collapseExtra"
             >
-              <i className="fas fa-chalkboard-teacher"></i>
-              <span>Staff</span>
+              <i className="fas fa-user-graduate"></i>
+              <span>Extra curicular</span>
             </a>
             <div
-              id="collapseStaff"
+              id="collapseExtra"
               className="collapse"
               aria-labelledby="headingUtilities"
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/view-staff">
-                  View Staff
+                <NavLink className="collapse-item" to="event" end>
+                  Events
                 </NavLink>
-                <NavLink className="collapse-item" to="/add-staff" end>
-                  Add Staff
+                <NavLink className="collapse-item" to="annoucement" end>
+                  Annoucements
                 </NavLink>
               </div>
             </div>
-          </li> */}
+          </li>
+
+          <li className="nav-item ">
+            <NavLink className="nav-link" to="contact">
+              <i className="fas fa-fw fa-tachometer-alt"></i>
+              <span>Contact Admin</span>
+            </NavLink>
+          </li>
+          
 
           {/* <!-- Sidebar Toggler (Sidebar) --> */}
           <div className="text-center d-none d-md-inline">
@@ -300,7 +271,7 @@ const StudentWrapper = () => {
                     </span>
                     <img
                       className="img-profile rounded-circle"
-                      src="../../assets/img/undraw_profile.svg"
+                      src={`http://127.0.0.1:8000/${auth.user.user_info.profile_pics}`}
                     />
                   </a>
                   {/* <!-- Dropdown - User Information --> */}
