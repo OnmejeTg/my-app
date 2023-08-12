@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState, useContext } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import AuthContext from "../utils/AuthProvider";
 
 const PreviewScoresGrid = () => {
+  const {auth} = useContext(AuthContext)
   const [data, setData] = useState([]);
 
   useEffect(() => {
     // Fetch data from API
-    const classId = 1;
+    const classId = auth.user.user_info.grade_in_charge
 
     fetch(`http://127.0.0.1:8000/result/view-assessment/${classId}`)
       .then((response) => response.json())

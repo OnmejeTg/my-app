@@ -32,6 +32,7 @@ import StudentProtected from "./utils/StudentProtected";
 import ResultWarraper from "./pages/results/ResultWrapper";
 import UpdateStudentDash from "./pages/student/UpdateStudent";
 import ComingSoon from "./components/ComingSoon";
+import StudentResult from "./pages/student/StudentResult";
 
 function App() {
   return (
@@ -41,7 +42,7 @@ function App() {
           <Route path="login" element={<Login />} />
 
           <Route path="student/" element={<StudentProtected><StudentWrapper/></StudentProtected>}>
-            <Route path="print-result" element={<PrintResult />} />
+            <Route path="print-result" element={<StudentResult/>} />
             <Route path="dashboard" element={<StudentDash/>} />
             <Route path="update" element={<UpdateStudentDash/>}/>
             <Route path="pay-fee" element={<ComingSoon/>} />
@@ -50,7 +51,7 @@ function App() {
             <Route path="event" element={<ComingSoon/>} />
             <Route path="annoucement" element={<ComingSoon/>} />
             <Route path="contact" element={<ComingSoon/>} />
-            {/* <Route path="event" element={<ComingSoon/>} /> */}
+            <Route path="invoice" element={<ComingSoon/>} />
           </Route>
 
           <Route path="result/" element={<StaffProtected><ResultWarraper /></StaffProtected>}>

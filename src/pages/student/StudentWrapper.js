@@ -97,6 +97,9 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="pay-fee">
                   Pay fee
                 </NavLink>
+                <NavLink className="collapse-item" to="invoice">
+                  Invoice
+                </NavLink>
                 <NavLink className="collapse-item" to="outstanding-fee" end>
                   Outstanding
                 </NavLink>

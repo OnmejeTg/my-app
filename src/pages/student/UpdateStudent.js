@@ -128,7 +128,7 @@ const UpdateStudentDash = () => {
     }
   };
   
-  console.log(student);
+  // console.log(student);
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Typography variant="h4" align="center" gutterBottom>

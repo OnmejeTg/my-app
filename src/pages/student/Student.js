@@ -10,7 +10,7 @@ const StudentDash = () => {
   const [studentClass, setStudentClass] = useState("");
   const [fee, setFee] = useState("");
   const id = auth.user.user_info.admission_id
-console.log(id)
+
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
