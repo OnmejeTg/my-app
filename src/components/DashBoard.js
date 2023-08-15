@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Pie } from "react-chartjs-2";
+
 
 
 const DashBoard = () => {
