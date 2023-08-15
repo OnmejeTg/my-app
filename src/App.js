@@ -33,6 +33,8 @@ import ResultWarraper from "./pages/results/ResultWrapper";
 import UpdateStudentDash from "./pages/student/UpdateStudent";
 import ComingSoon from "./components/ComingSoon";
 import StudentResult from "./pages/student/StudentResult";
+import CreateAnnoucement from "./pages/admin/CreateAnnoucement";
+import AllAnnouncement from "./pages/admin/AllAnnouncement";
 
 function App() {
   return (
@@ -84,6 +86,8 @@ function App() {
             <Route path="view-exam" element={<PreviewExam />} />
             <Route path="compute-scores" element={<ComputeResult />} />
             <Route path="print-result" element={<PrintResult />} />
+            <Route path="create-annoucement" element={<CreateAnnoucement/>}/>
+            <Route path="all-annoucement" element={<AllAnnouncement/>} />
           </Route>
         </Routes>
       </Router>

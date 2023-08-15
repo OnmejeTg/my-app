@@ -144,7 +144,7 @@ const StudentWrapper = () => {
               aria-controls="collapseExtra"
             >
               <i className="fas fa-user-graduate"></i>
-              <span>Extra curicular</span>
+              <span>Extra Curricular</span>
             </a>
             <div
               id="collapseExtra"

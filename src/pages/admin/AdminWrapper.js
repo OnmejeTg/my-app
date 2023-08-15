@@ -197,6 +197,34 @@ const AdminWrapper = () => {
               </div>
             </div>
           </li>
+          <li className="nav-item">
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapseAnnouncement"
+              aria-expanded="true"
+              aria-controls="collapseAnnouncement"
+            >
+              <i className="fas fa-chalkboard-teacher"></i>
+              <span>Annoucement</span>
+            </a>
+            <div
+              id="collapseAnnouncement"
+              className="collapse"
+              aria-labelledby="headingUtilities"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <NavLink className="collapse-item" to="/create-annoucement">
+                  Create Annoucement
+                </NavLink>
+                <NavLink className="collapse-item" to="/all-annoucement" end>
+                  All Annoucements
+                </NavLink>
+              </div>
+            </div>
+          </li>
 
           {/* <!-- Sidebar Toggler (Sidebar) --> */}
           <div className="text-center d-none d-md-inline">
