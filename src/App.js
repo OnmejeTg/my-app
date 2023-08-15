@@ -35,6 +35,7 @@ import ComingSoon from "./components/ComingSoon";
 import StudentResult from "./pages/student/StudentResult";
 import CreateAnnoucement from "./pages/admin/CreateAnnoucement";
 import AllAnnouncement from "./pages/admin/AllAnnouncement";
+import Annoucement from "./pages/admin/Annoucement";
 
 function App() {
   return (
@@ -88,6 +89,8 @@ function App() {
             <Route path="print-result" element={<PrintResult />} />
             <Route path="create-annoucement" element={<CreateAnnoucement/>}/>
             <Route path="all-annoucement" element={<AllAnnouncement/>} />
+            <Route path="view-annoucement/:id" element={<Annoucement/>}/>
+            
           </Route>
         </Routes>
       </Router>

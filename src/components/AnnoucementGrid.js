@@ -6,7 +6,7 @@ import axios from "../api/axios";
 const AnnouncementGrid = () => {
   const [rows, setRows] = useState({});
 
-  const getAnnouncement = async () => {
+  const getAnnouncements = async () => {
     try {
       const response = await axios.get("/setup/list-create-announcement");
       setRows(response.data.results);
@@ -17,15 +17,8 @@ const AnnouncementGrid = () => {
   };
 
   useEffect(() => {
-    getAnnouncement();
+    getAnnouncements();
   }, []);
-
-  console.log(rows);
-  const handleRowClick = (params) => {
-    const studentId = params.row.student_id;
-    console.log("Clicked student_id:", studentId);
-    // Perform additional actions with the student_id
-  };
 
   const columns = [
     {
@@ -33,12 +26,7 @@ const AnnouncementGrid = () => {
       headerName: "ID",
       width: 100,
       renderCell: (params) => (
-        <Link
-          onClick={() => handleRowClick(params)}
-          to={`/pay-fee?student_id=${params.row.id}`}
-        >
-          {params.row.id}
-        </Link>
+        <Link to={`/view-annoucement/${params.row.id}`}>{params.row.id}</Link>
       ),
     },
     { field: "subject", headerName: "Subject", width: 400 },
