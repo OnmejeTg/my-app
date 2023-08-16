@@ -13,7 +13,7 @@ import {
 //   Stack,
 } from "@mui/material";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FormContainer = styled.form`
   display: flex;
@@ -25,15 +25,11 @@ const FormContainer = styled.form`
 const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
-const StyledInput = styled.input`
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-`;
+
 
 const UpdateStudentDash = () => {
-  // const student_id = "CK-23-00001";
+  const navigate = useNavigate()
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const studentId = queryParams.get("student_id");
@@ -41,7 +37,6 @@ const UpdateStudentDash = () => {
   const [student, setStudent] = useState({});
   const [surname, setSurname] = useState("");
   const [othernames, setOthernames] = useState("");
-  const [stdClass, setStdClass] = useState([]);
   const [parentSurname, setParentSurname] = useState("");
   const [parentOthernames, setParentOthernames] = useState("");
   const [parentPhone, setParentPhone] = useState("");
@@ -52,14 +47,7 @@ const UpdateStudentDash = () => {
   const [dateofAdmission, setDateofAdmission] = useState(null);
   const [selectedClass, setSelectedClass] = useState("");
 
-  useEffect(() => {
-    // Fetch data from API
-    fetch("http://127.0.0.1:8000/setup/get-class")
-      .then((response) => response.json())
-      .then((data) => setStdClass(data.results))
-      .catch((error) => console.log(error));
-  }, []);
-
+  
   useEffect(() => {
     // Fetch data from API
     fetch(`http://127.0.0.1:8000/student/get-student/${studentId}`)
@@ -113,7 +101,8 @@ const UpdateStudentDash = () => {
 
         if (response.ok) {
           // File submitted successfully
-          toast.success("Updated Successfully!");
+          // toast.success("Updated Successfully!");
+          navigate('/student/dashboard')
           
         } else {
           // Handle error response
@@ -132,7 +121,7 @@ const UpdateStudentDash = () => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Typography variant="h4" align="center" gutterBottom>
-        Edit Student Details
+        Edit Your Details
       </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
@@ -140,9 +129,9 @@ const UpdateStudentDash = () => {
             label="Surname"
             value={surname}
             variant="outlined"
-            onChange={(event) => {
-              setSurname(event.target.value);
-            }}
+            // onChange={(event) => {
+            //   setSurname(event.target.value);
+            // }}
             fullWidth
             required
           />
@@ -153,9 +142,9 @@ const UpdateStudentDash = () => {
             variant="outlined"
             fullWidth
             value={othernames}
-            onChange={(event) => {
-              setOthernames(event.target.value);
-            }}
+            // onChange={(event) => {
+            //   setOthernames(event.target.value);
+            // }}
             required
           />
         </Grid>
@@ -206,9 +195,9 @@ const UpdateStudentDash = () => {
             variant="outlined"
             fullWidth
             value={parentSurname}
-            onChange={(event) => {
-              setParentSurname(event.target.value);
-            }}
+            // onChange={(event) => {
+            //   setParentSurname(event.target.value);
+            // }}
             required
           />
         </Grid>
@@ -218,9 +207,9 @@ const UpdateStudentDash = () => {
             variant="outlined"
             fullWidth
             value={parentOthernames}
-            onChange={(event) => {
-              setParentOthernames(event.target.value);
-            }}
+            // onChange={(event) => {
+            //   setParentOthernames(event.target.value);
+            // }}
             required
           />
         </Grid>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
@@ -13,7 +13,7 @@ import {
   Stack,
 } from "@mui/material";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FormContainer = styled.form`
   display: flex;
@@ -25,6 +25,7 @@ const FormContainer = styled.form`
 const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
+
 const StyledInput = styled.input`
   padding: 10px;
   font-size: 16px;
@@ -33,27 +34,30 @@ const StyledInput = styled.input`
 `;
 
 const UpdateStudent = () => {
-  // const student_id = "CK-23-00001";
+  const navigate = useNavigate();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const studentId = queryParams.get("student_id");
 
   const [student, setStudent] = useState({});
-  const [surname, setSurname] = useState("");
-  const [othernames, setOthernames] = useState("");
   const [stdClass, setStdClass] = useState([]);
-  const [parentSurname, setParentSurname] = useState("");
-  const [parentOthernames, setParentOthernames] = useState("");
-  const [parentPhone, setParentPhone] = useState("");
-  const [parentAddress, setParentAddress] = useState("");
-  const [parentEmail, setParentEmail] = useState("");
-  const [parentOccupation, setParentOccupation] = useState("");
-  const [dateofBirth, setDateofBirth] = useState(null);
-  const [dateofAdmission, setDateofAdmission] = useState(null);
-  const [selectedClass, setSelectedClass] = useState("");
+  const [formData, setFormData] = useState({
+    surname: "",
+    othernames: "",
+    sex:"",
+    dateofBirth: null,
+    dateofAdmission: null,
+    selectedClass: "",
+    parentSurname: "",
+    parentOthernames: "",
+    parentPhone: "",
+    parentAddress: "",
+    parentEmail: "",
+    parentOccupation: "",
+  });
 
   useEffect(() => {
-    // Fetch data from API
+    // Fetch class data
     fetch("http://127.0.0.1:8000/setup/get-class")
       .then((response) => response.json())
       .then((data) => setStdClass(data.results))
@@ -61,136 +65,125 @@ const UpdateStudent = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch data from API
+    // Fetch student data
     fetch(`http://127.0.0.1:8000/student/get-student/${studentId}`)
       .then((response) => response.json())
       .then((data) => {
         setStudent(data);
-        setSurname(data.surname);
-        setDateofBirth(data.date_of_birth);
-        setOthernames(data.othernames);
-        setParentAddress(data.parent_address);
-        setParentEmail(data.parent_email);
-        setParentOccupation(data.parent_occupation);
-        setParentOthernames(data.parent_othernames);
-        setParentPhone(data.parent_phone);
-        setParentSurname(data.parent_surname);
-        setSelectedClass(data.class_id.id);
-        setDateofAdmission(data.year_of_admission);
+        setFormData({
+          surname: data.surname,
+          othernames: data.othernames,
+          sex: data.sex,
+          dateofBirth: data.date_of_birth,
+          dateofAdmission: data.year_of_admission,
+          selectedClass: data.class_id.id,
+          parentSurname: data.parent_surname,
+          parentOthernames: data.parent_othernames,
+          parentPhone: data.parent_phone,
+          parentAddress: data.parent_address,
+          parentEmail: data.parent_email,
+          parentOccupation: data.parent_occupation,
+        });
       })
       .catch((error) => console.log(error));
   }, [studentId]);
 
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+    const formDataToSend = new FormData();
 
-    if (true) {
-      const formData = new FormData();
-      // formData.append("profile_pics", imageToSend);
-      formData.append("surname", surname);
-      formData.append("othernames", othernames);
-      formData.append("date_of_birth", dateofBirth);
-      formData.append("year_of_admission", dateofAdmission);
-      formData.append("parent_surname", parentSurname);
-      formData.append("parent_othernames", parentOthernames);
-      formData.append("parent_phone", parentPhone);
-      formData.append("parent_address", parentAddress);
-      formData.append("parent_email", parentEmail);
-      formData.append("parent_occupation", parentOccupation);
-      formData.append("class_id", selectedClass);
-      // formData.append("sex", sex);
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSend.append(key, value);
+    });
 
-      try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/student/update-student/${student.id}`,
-          {
-            method: "PUT",
-
-            body: formData,
-          }
-        );
-
-        if (response.ok) {
-          // File submitted successfully
-          toast.success("Updated Successfully!");
-          
-        } else {
-          // Handle error response
-          
-          toast.error("Failed. Please try again.");
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/student/update-student/${student.id}`,
+        {
+          method: "PUT",
+          body: formDataToSend,
         }
-      } catch (error) {
-        // Handle network error
-        console.error("Network error:", error);
+      );
+
+      if (response.ok) {
+        navigate(`/view-student/${student.admission_id}`);
+      } else {
         toast.error("Failed. Please try again.");
       }
+    } catch (error) {
+      console.error("Network error:", error);
+      toast.error("Failed. Please try again.");
     }
   };
-  
-  console.log(student);
+
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Typography variant="h4" align="center" gutterBottom>
         Edit Student Details
       </Typography>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            label="Surname"
-            value={surname}
-            variant="outlined"
-            onChange={(event) => {
-              setSurname(event.target.value);
-            }}
-            fullWidth
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Other Names"
-            variant="outlined"
-            fullWidth
-            value={othernames}
-            onChange={(event) => {
-              setOthernames(event.target.value);
-            }}
-            required
-          />
-        </Grid>
+        {[
+          { label: "Surname", name: "surname" },
+          { label: "Other Names", name: "othernames" },
+          { label: "Sex", name: "sex" },
+          // Add more fields
+        ].map((field) => (
+          <Grid item xs={12} key={field.name}>
+            <TextField
+              label={field.label}
+              variant="outlined"
+              fullWidth
+              value={formData[field.name]}
+              name={field.name}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+        ))}
 
+        {/* Date of Birth */}
         <Grid item xs={12}>
           <Stack>
             <label htmlFor="text-input">Date of Birth:</label>
             <StyledInput
               type="date"
-              value={dateofBirth}
-              onChange={(e) => setDateofBirth(e.target.value)}
+              value={formData.dateofBirth}
+              name="dateofBirth"
+              onChange={handleChange}
             />
           </Stack>
         </Grid>
+        {/* Date of Admission */}
         <Grid item xs={12}>
           <Stack>
             <label htmlFor="text-input">Date of Admission:</label>
             <StyledInput
               type="date"
-              value={dateofAdmission}
-              onChange={(e) => setDateofAdmission(e.target.value)}
+              value={formData.dateofAdmission}
+              name="dateofAdmission"
+              onChange={handleChange}
             />
           </Stack>
         </Grid>
+        {/* Class */}
         <Grid item xs={12}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Class</InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={selectedClass}
+              value={formData.selectedClass}
+              name="selectedClass"
               label="Age"
-              onChange={(event) => {
-                setSelectedClass(event.target.value);
-              }}
+              onChange={handleChange}
             >
               {stdClass?.map((item) => (
                 <MenuItem value={item.id} key={item.id}>
@@ -200,79 +193,27 @@ const UpdateStudent = () => {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Surname"
-            variant="outlined"
-            fullWidth
-            value={parentSurname}
-            onChange={(event) => {
-              setParentSurname(event.target.value);
-            }}
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Other Names"
-            variant="outlined"
-            fullWidth
-            value={parentOthernames}
-            onChange={(event) => {
-              setParentOthernames(event.target.value);
-            }}
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Phone"
-            variant="outlined"
-            fullWidth
-            value={parentPhone}
-            onChange={(event) => {
-              setParentPhone(event.target.value);
-            }}
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Address"
-            variant="outlined"
-            fullWidth
-            value={parentAddress}
-            onChange={(event) => {
-              setParentAddress(event.target.value);
-            }}
-            required
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Email"
-            type="email"
-            variant="outlined"
-            fullWidth
-            value={parentEmail}
-            onChange={(event) => {
-              setParentEmail(event.target.value);
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Occupation"
-            variant="outlined"
-            fullWidth
-            value={parentOccupation}
-            onChange={(event) => {
-              setParentOccupation(event.target.value);
-            }}
-            required
-          />
-        </Grid>
+        {/* Parent Details */}
+        {[
+          { label: "Parent Surname", name: "parentSurname" },
+          { label: "Parent Other Names", name: "parentOthernames" },
+          { label: "Parent Phone", name: "parentPhone" },
+          { label: "Parent Address", name: "parentAddress" },
+          { label: "Parent Email", name: "parentEmail" },
+          { label: "Parent Occupation", name: "parentOccupation" },
+        ].map((field) => (
+          <Grid item xs={12} key={field.name}>
+            <TextField
+              label={field.label}
+              variant="outlined"
+              fullWidth
+              value={formData[field.name]}
+              name={field.name}
+              onChange={handleChange}
+              required
+            />
+          </Grid>
+        ))}
 
         <Grid item xs={12}>
           <StyledButton type="submit" variant="contained" color="primary">

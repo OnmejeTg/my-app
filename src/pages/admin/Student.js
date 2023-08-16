@@ -42,7 +42,7 @@ const Student = () => {
       .then((data) => setFee(data[0]))
       .catch((error) => console.log(error));
   }, [id]);
-  console.log(fee);
+  // console.log(fee);
   return (
     <div>
       <div className="container-fluid">
