@@ -24,13 +24,14 @@ const AnnouncementGrid = () => {
     {
       field: "id",
       headerName: "ID",
-      width: 100,
+      width: 50,
       renderCell: (params) => (
         <Link to={`/view-annoucement/${params.row.id}`}>{params.row.id}</Link>
       ),
     },
-    { field: "subject", headerName: "Subject", width: 400 },
+    { field: "subject", headerName: "Subject", width: 300 },
     { field: "body", headerName: "Message", width: 500 },
+    { field: "created_at", headerName: "Message", width: 150 },
   ];
 
   return (

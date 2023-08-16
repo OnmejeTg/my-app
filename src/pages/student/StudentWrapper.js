@@ -153,11 +153,8 @@ const StudentWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="event" end>
-                  Events
-                </NavLink>
-                <NavLink className="collapse-item" to="annoucement" end>
-                  Annoucements
+                <NavLink className="collapse-item" to="notice" end>
+                  Notice Board
                 </NavLink>
               </div>
             </div>
