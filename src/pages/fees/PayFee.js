@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const FormContainer = styled.form`
   display: flex;
@@ -25,7 +25,13 @@ const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
 
+const API_BASE_URL = "http://127.0.0.1:8000/fee";
+const FETCH_FEES_URL = `${API_BASE_URL}/get-fees`;
+const PAY_FEE_URL = `${API_BASE_URL}/pay`;
+
 const PayFee = () => {
+  const navigate = useNavigate();
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const studentId = queryParams.get("student_id");
@@ -37,48 +43,45 @@ const PayFee = () => {
 
   useEffect(() => {
     // Fetch data from API
-    fetch("http://127.0.0.1:8000/fee/get-fees")
+    fetch(FETCH_FEES_URL)
       .then((response) => response.json())
       .then((data) => setPortalFees(data.results))
       .catch((error) => console.log(error));
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setButtonDisabled(true);
-    setTimeout(() => {
-      // Enable the button after the action is complete
-      setButtonDisabled(false);
-    }, 1000);
-    const url = "http://127.0.0.1:8000/fee/pay";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fee_type: description,
-        student: student,
-      }),
-    })
-      .then((response) => {
-        if (response.status === 400) {
-          throw new Error("Payment failed, try again");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Display success notification
-        toast.success("Payment successful!");
 
-        setStudent("");
-        setDescription("");
-      })
-      .catch((error) => {
-        // Handle error and display error notification
-        toast.error(`${error.message}`);
-        console.log(error);
+    try {
+      const response = await fetch(PAY_FEE_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fee_type: description,
+          student,
+        }),
       });
+
+      if (response.status === 400) {
+        throw new Error("Payment failed, try again");
+      }
+
+      const data = await response.json();
+      toast.success("Payment successful!");
+      setTimeout(() => {
+        navigate("/outstanding-fee");
+      }, 1000);
+    } catch (error) {
+      toast.error(`${error.message}`);
+      // console.log(error);
+      setStudent("");
+      setDescription("");
+    } finally {
+      setButtonDisabled(false);
+    }
   };
 
   return (
