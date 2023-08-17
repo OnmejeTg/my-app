@@ -134,12 +134,12 @@ const AdminWrapper = () => {
               data-parent="#accordionSidebar"
             >
               <div className="bg-white py-2 collapse-inner rounded">
-                <NavLink className="collapse-item" to="/add-assessment">
+                {/* <NavLink className="collapse-item" to="/add-assessment">
                   Add assessment
                 </NavLink>
                 <NavLink className="collapse-item" to="/add-psychomotor">
                   Add Psychomotor
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   className="collapse-item"
                   to="/view-first-assessment"
