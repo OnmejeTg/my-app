@@ -15,7 +15,7 @@ const DefaultersGrid = () => {
 
   const handleRowClick = (params) => {
     const studentId = params.row.student_id;
-    console.log("Clicked student_id:", studentId);
+    // console.log("Clicked student_id:", studentId);
     // Perform additional actions with the student_id
   };
 

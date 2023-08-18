@@ -38,6 +38,7 @@ import AllAnnouncement from "./pages/admin/AllAnnouncement";
 import Annoucement from "./pages/admin/Annoucement";
 import Announcement from "./pages/student/Announcement";
 import ContactAdmin from "./pages/student/ContactAdmin";
+import Invoice from "./pages/student/Invoice";
 
 function App() {
   return (
@@ -56,7 +57,7 @@ function App() {
             <Route path="notice" element={<Announcement/>} />
             <Route path="annoucement" element={<ComingSoon/>} />
             <Route path="contact" element={<ContactAdmin/>} />
-            <Route path="invoice" element={<ComingSoon/>} />
+            <Route path="invoice" element={<Invoice/>} />
           </Route>
 
           <Route path="result/" element={<StaffProtected><ResultWarraper /></StaffProtected>}>

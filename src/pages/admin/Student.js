@@ -162,7 +162,7 @@ const Student = () => {
                     <h6 className="font-weight-bold">
                       First Term:{" "}
                       <span className="font-weight-lighter ml-2">
-                        {fee ? `Paid ${fee.fee_type.amount}` : "Not paid"}
+                        {fee ? `Paid ${fee.fee_type.amount} || Ref: ${fee.payment_ref}` : "Not paid"}
                       </span>
                     </h6>
                     <h6 className="font-weight-bold">
