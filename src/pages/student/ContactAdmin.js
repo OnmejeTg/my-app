@@ -1,11 +1,9 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import { Grid, Button, Typography, TextField } from "@mui/material";
-
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
-import { useNavigate } from "react-router-dom";
 import AuthContext from "../../utils/AuthProvider";
 
 const FormContainer = styled.form`
@@ -22,7 +20,7 @@ const StyledButton = styled(Button)`
 const ContactAdmin = () => {
   const { auth } = useContext(AuthContext);
   const { admission_id } = auth.user.user_info;
-  const navigate = useNavigate();
+  
   const [subject, setSubject] = useState("");
   const [msg, setMsg] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
@@ -34,16 +32,17 @@ const ContactAdmin = () => {
       const response = await axios.post("/AdminUser/create-complain", {
         title: subject,
         body: msg,
-        sender: admission_id,
+        // sender: admission_id,
       });
-      console.log(response.data);
+     toast.success("Message sent")
 
       // Reset form fields and enable the button
       setSubject("");
       setMsg("");
       setButtonDisabled(false);
     } catch (error) {
-      console.error("Error submitting form:", error);
+      toast.error("Mesage not sent")
+      // console.error("Error submitting form:", error);
       setButtonDisabled(false);
     }
   };
