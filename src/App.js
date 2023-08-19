@@ -39,6 +39,7 @@ import Annoucement from "./pages/admin/Annoucement";
 import Announcement from "./pages/student/Announcement";
 import ContactAdmin from "./pages/student/ContactAdmin";
 import Invoice from "./pages/student/Invoice";
+import Outstanding from "./pages/student/Outstanding";
 
 function App() {
   return (
@@ -52,7 +53,7 @@ function App() {
             <Route path="dashboard" element={<StudentDash/>} />
             <Route path="update" element={<UpdateStudentDash/>}/>
             <Route path="pay-fee" element={<ComingSoon/>} />
-            <Route path="outstanding-fee" element={<ComingSoon/>} />
+            <Route path="outstanding-fee" element={<Outstanding/>} />
             <Route path="attendance" element={<ComingSoon/>} />
             <Route path="notice" element={<Announcement/>} />
             <Route path="annoucement" element={<ComingSoon/>} />

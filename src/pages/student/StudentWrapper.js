@@ -100,9 +100,9 @@ const StudentWrapper = () => {
                 <NavLink className="collapse-item" to="invoice">
                   Invoice
                 </NavLink>
-                <NavLink className="collapse-item" to="outstanding-fee" end>
+                {/* <NavLink className="collapse-item" to="outstanding-fee" end>
                   Outstanding
-                </NavLink>
+                </NavLink> */}
               </div>
             </div>
           </li>

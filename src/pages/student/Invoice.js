@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import AuthContext from "../../utils/AuthProvider";
 import axios from "../../api/axios";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 import { Typography } from "@mui/material";
 
 const Invoice = () => {
@@ -31,7 +31,7 @@ const Invoice = () => {
   };
   useEffect(() => {
     getFees();
-  }, [id]);
+  }, []);
 
   const columns = [
     { field: "fee_type_name", headerName: "Payment Type", width: 200 },
