@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
 import { Grid, Button, Typography, TextField } from "@mui/material";
 
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "../../api/axios";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "../../utils/AuthProvider";
 
 const FormContainer = styled.form`
   display: flex;
@@ -19,23 +20,36 @@ const StyledButton = styled(Button)`
 `;
 
 const ContactAdmin = () => {
+  const { auth } = useContext(AuthContext);
+  const { admission_id } = auth.user.user_info;
   const navigate = useNavigate();
   const [subject, setSubject] = useState("");
   const [msg, setMsg] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     setButtonDisabled(true);
-    setTimeout(() => {
-      // Enable the button after the action is complete
-      setButtonDisabled(false);
+    try {
+      const response = await axios.post("/AdminUser/create-complain", {
+        title: subject,
+        body: msg,
+        sender: admission_id,
+      });
+      console.log(response.data);
+
+      // Reset form fields and enable the button
       setSubject("");
       setMsg("");
-    }, 1000);
+      setButtonDisabled(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setButtonDisabled(false);
+    }
   };
+
   return (
-    <FormContainer onSubmit={handleSubmit}>
+    <FormContainer onSubmit={handleFormSubmit}>
       <Typography variant="h4" align="center" gutterBottom>
         Contact Admin
       </Typography>
@@ -45,9 +59,7 @@ const ContactAdmin = () => {
             label="Subject"
             value={subject}
             variant="outlined"
-            onChange={(event) => {
-              setSubject(event.target.value);
-            }}
+            onChange={(event) => setSubject(event.target.value)}
             fullWidth
             required
           />
@@ -58,12 +70,10 @@ const ContactAdmin = () => {
             label="Message"
             variant="outlined"
             value={msg}
-            onChange={(event) => {
-              setMsg(event.target.value);
-            }}
+            onChange={(event) => setMsg(event.target.value)}
             required
-            multiline // This allows the field to have multiple lines
-            rows={8} // Set the number of rows
+            multiline
+            rows={8}
           />
         </Grid>
 
@@ -74,7 +84,7 @@ const ContactAdmin = () => {
             color="primary"
             disabled={isButtonDisabled}
           >
-            {isButtonDisabled ? "Processing..." : "send"}
+            {isButtonDisabled ? "Processing..." : "Send"}
           </StyledButton>
         </Grid>
       </Grid>
