@@ -44,7 +44,7 @@ const StudentDash = () => {
       .then((data) => setFee(data[0]))
       .catch((error) => console.log(error));
   }, [id]);
-  
+ 
   return (
     <div>
       <div className="container-fluid">
@@ -164,7 +164,7 @@ const StudentDash = () => {
                     <h6 className="font-weight-bold">
                       First Term:{" "}
                       <span className="font-weight-lighter ml-2">
-                        {fee ? `Paid ${fee.fee_type.amount}` : "Not paid"}
+                        {fee ? `Paid ${fee.fee_type_amount}` : "Not paid"}
                       </span>
                     </h6>
                     <h6 className="font-weight-bold">

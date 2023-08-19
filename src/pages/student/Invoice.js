@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 
 const Invoice = () => {
   const { auth } = useContext(AuthContext);
-  const [fee, setFee] = useState({});
+  const [fee, setFee] = useState([]);
   //   const [rows, setRows] = React.useState([]);
 
   const id = auth.user.user_info.admission_id;
@@ -35,10 +35,16 @@ const Invoice = () => {
 
   const columns = [
     { field: "fee_type_name", headerName: "Payment Type", width: 200 },
-    { field: "session", headerName: "Session", width: 200 },
+    { field: "session", headerName: "Session", width: 150 },
     { field: "term", headerName: "Term", width: 200 },
-    { field: "fee_type_amount", headerName: "Amount", width: 200 },
+    { field: "fee_type_amount", headerName: "Amount", width: 150 },
     { field: "payment_ref", headerName: "Payment Ref", width: 200 },
+    {
+      field: "fee",
+      headerName: "Status",
+      width: 150,
+      renderCell: () => "Success",
+    },
   ];
 
   return (
