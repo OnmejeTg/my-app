@@ -40,6 +40,7 @@ import Announcement from "./pages/student/Announcement";
 import ContactAdmin from "./pages/student/ContactAdmin";
 import Invoice from "./pages/student/Invoice";
 import Outstanding from "./pages/student/Outstanding";
+import Staff from "./pages/staff/Staff";
 
 function App() {
   return (
@@ -94,6 +95,7 @@ function App() {
             <Route path="create-annoucement" element={<CreateAnnoucement/>}/>
             <Route path="all-annoucement" element={<AllAnnouncement/>} />
             <Route path="view-annoucement/:id" element={<Annoucement/>}/>
+            <Route path="view-staff/:id" element={<Staff/>} />
             
           </Route>
         </Routes>

@@ -123,96 +123,9 @@ const UpdateStudentDash = () => {
       <Typography variant="h4" align="center" gutterBottom>
         Edit Your Details
       </Typography>
+      <b>Note:To edit other details please contact admin</b>
+      <br></br>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
-          <TextField
-            label="Surname"
-            value={surname}
-            variant="outlined"
-            // onChange={(event) => {
-            //   setSurname(event.target.value);
-            // }}
-            fullWidth
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Other Names"
-            variant="outlined"
-            fullWidth
-            value={othernames}
-            // onChange={(event) => {
-            //   setOthernames(event.target.value);
-            // }}
-            required
-          />
-        </Grid>
-
-        {/* <Grid item xs={12}>
-          <Stack>
-            <label htmlFor="text-input">Date of Birth:</label>
-            <StyledInput
-              type="date"
-              value={dateofBirth}
-              onChange={(e) => setDateofBirth(e.target.value)}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={12}>
-          <Stack>
-            <label htmlFor="text-input">Date of Admission:</label>
-            <StyledInput
-              type="date"
-              value={dateofAdmission}
-              onChange={(e) => setDateofAdmission(e.target.value)}
-            />
-          </Stack>
-        </Grid> */}
-        {/* <Grid item xs={12}>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Class</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedClass}
-              label="Age"
-              onChange={(event) => {
-                setSelectedClass(event.target.value);
-              }}
-            >
-              {stdClass?.map((item) => (
-                <MenuItem value={item.id} key={item.id}>
-                  {item.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid> */}
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Surname"
-            variant="outlined"
-            fullWidth
-            value={parentSurname}
-            // onChange={(event) => {
-            //   setParentSurname(event.target.value);
-            // }}
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Other Names"
-            variant="outlined"
-            fullWidth
-            value={parentOthernames}
-            // onChange={(event) => {
-            //   setParentOthernames(event.target.value);
-            // }}
-            required
-          />
-        </Grid>
         <Grid item xs={12}>
           <TextField
             label="Parent Phone"

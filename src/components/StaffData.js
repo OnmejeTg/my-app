@@ -38,7 +38,7 @@ const StaffData = () => {
       headerName: "ID",
       width: 150,
       renderCell: (params) => (
-        <Link to={`/view-student/${params.row.staff_id}`}>
+        <Link to={`/view-staff/${params.row.staff_id}`}>
           {params.row.staff_id}
         </Link>
       ),
