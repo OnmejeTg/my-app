@@ -140,7 +140,7 @@ const Staff = () => {
                     <h6 className="font-weight-bold">
                       Class in Charge:{" "}
                       <span className="font-weight-lighter ml-2">
-                        {staff.grade_in_charge ? staff.grade_in_charge : "N/A"}
+                        {staff.grade_in_charge ? staff.grade_in_charge.name : "N/A"}
                       </span>
                     </h6>
                   </div>
