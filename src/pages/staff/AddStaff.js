@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { DatePicker } from "@mui/x-date-pickers";
 import {
@@ -29,47 +29,48 @@ const StyledFormControl = styled(FormControl)`
 `;
 
 const AddStaff = () => {
-  const [surname, setSurname] = useState("");
-  const [otherNames, setOtherNames] = useState("");
+  const [grade, setGrade] = useState([])
   const [dateOfBirth, setDateOfBirth] = useState(null);
-  const [sex, setSex] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
-  const [qualification, setQualification] = useState("");
-  const [discipline, setDiscipline] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [appType, setAppType] = useState("");
   const [appDate, setAppDate] = useState(null);
-  const [gradeInCharge, setGradeInCharge] = useState("");
+  const intialFormData = {
+    surname:"",
+    otherNames:"",
+    sex:"",
+    phoneNumber:"",
+    email:"",
+    qualification:"",
+    discipline:"",
+    designation:"",
+    appType:"",
+    gradeInCharge:"",
+  }
+
+  const [formData, setFormData] = useState(intialFormData)
+
+  useEffect(() => {
+    // Fetch data from API
+    fetch("http://127.0.0.1:8000/setup/get-class")
+      .then((response) => response.json())
+      .then((data) => setGrade(data.results))
+      .catch((error) => console.log(error));
+  }, []);
+
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission here
-    console.log("Submitted:", {
-      surname,
-      otherNames,
-      dateOfBirth,
-      sex,
-      phoneNumber,
-      address,
-      email,
-    });
+    console.log(formData)
 
     // Clear form fields
-    setSurname("");
-    setOtherNames("");
-    setDateOfBirth(null);
-    setSex("");
-    setPhoneNumber("");
-    setAddress("");
-    setEmail("");
-    setAppDate(null)
-    setQualification("")
-    setDiscipline("")
-    setAppType("")
-    setDesignation("")
-    setGradeInCharge("")
+   
   };
 
   return (
@@ -82,10 +83,8 @@ const AddStaff = () => {
           <StyledTextField
             id="surname"
             label="Surname"
-            value={surname}
-            onChange={(event) => {
-              setSurname(event.target.value);
-            }}
+            value={formData.surname}
+            onChange={handleChange}
             fullWidth
           />
         </Grid>
@@ -93,10 +92,8 @@ const AddStaff = () => {
           <StyledTextField
             id="other-names"
             label="Other Names"
-            value={otherNames}
-            onChange={(event) => {
-              setOtherNames(event.target.value);
-            }}
+            value={formData.otherNames}
+            onChange={handleChange}
             fullWidth
           />
         </Grid>
@@ -114,14 +111,12 @@ const AddStaff = () => {
         </Grid>
         <Grid item xs={12}>
           <StyledFormControl>
-            <InputLabel id="sex-label">Sex</InputLabel>
+            <InputLabel id="sex">Sex</InputLabel>
             <Select
-              labelId="sex-label"
+              label="sex"
               id="sex"
-              value={sex}
-              onChange={(event) => {
-                setSex(event.target.value);
-              }}
+              value={formData.sex}
+              onChange={handleChange}
             >
               <MenuItem value="male">Male</MenuItem>
               <MenuItem value="female">Female</MenuItem>
@@ -132,10 +127,8 @@ const AddStaff = () => {
           <StyledTextField
             id="phone-number"
             label="Phone Number"
-            value={phoneNumber}
-            onChange={(event) => {
-              setPhoneNumber(event.target.value);
-            }}
+            value={formData.phoneNumber}
+            onChange={handleChange}
             fullWidth
           />
         </Grid>
@@ -143,10 +136,8 @@ const AddStaff = () => {
           <StyledTextField
             id="address"
             label="Address"
-            value={address}
-            onChange={(event) => {
-              setAddress(event.target.value);
-            }}
+            value={formData.address}
+            onChange={handleChange}
             fullWidth
           />
         </Grid>
@@ -154,25 +145,21 @@ const AddStaff = () => {
           <StyledTextField
             id="email"
             label="Email (optional)"
-            value={email}
-            onChange={(event) => {
-              setEmail(event.target.value);
-            }}
+            value={formData.email}
+            onChange={handleChange}
             fullWidth
           />
         </Grid>
         <Grid item xs={12}>
           <StyledFormControl>
-            <InputLabel id="qualification-label">
+            <InputLabel id="qualification">
               Highest Qaulification
             </InputLabel>
             <Select
-              labelId="qualification-label"
+              label="highest qualification"
               id="qualification"
-              value={qualification}
-              onChange={(event) => {
-                setQualification(event.target.value);
-              }}
+              value={formData.qualification}
+              onChange={handleChange}
             >
               <MenuItem value="masters">Masters</MenuItem>
               <MenuItem value="degree">Degree</MenuItem>
@@ -186,10 +173,8 @@ const AddStaff = () => {
           <StyledTextField
             id="email"
             label="Discipline"
-            value={discipline}
-            onChange={(event) => {
-              setDiscipline(event.target.value);
-            }}
+            value={formData.discipline}
+            onChange={handleChange}
             fullWidth
           />
         </Grid>
@@ -207,14 +192,12 @@ const AddStaff = () => {
         </Grid>
         <Grid item xs={12}>
           <StyledFormControl>
-            <InputLabel id="appType-label">Appointment Type</InputLabel>
+            <InputLabel id="Appointment-Type">Appointment Type</InputLabel>
             <Select
-              labelId="appType-label"
-              id="appType"
-              value={appType}
-              onChange={(event) => {
-                setAppType(event.target.value);
-              }}
+              label="Appointment-Type"
+              id="Appointment-Type"
+              value={formData.appType}
+              onChange={handleChange}
             >
               <MenuItem value="permanent">Permanent</MenuItem>
               <MenuItem value="temporal">Temporal</MenuItem>
@@ -224,14 +207,12 @@ const AddStaff = () => {
         </Grid>
         <Grid item xs={12}>
           <StyledFormControl>
-            <InputLabel id="designation-label">Designation</InputLabel>
+            <InputLabel id="designation">Designation</InputLabel>
             <Select
-              labelId="designation-label"
+              label="designation"
               id="designation"
-              value={designation}
-              onChange={(event) => {
-                setDesignation(event.target.value);
-              }}
+              value={formData.designation}
+              onChange={handleChange}
             >
               <MenuItem value="teaching">Teaching staff</MenuItem>
               <MenuItem value="admin">Admin staff</MenuItem>
@@ -240,17 +221,18 @@ const AddStaff = () => {
         </Grid>
         <Grid item xs={12}>
           <StyledFormControl>
-            <InputLabel id="grade-label">Grade in Charge</InputLabel>
+            <InputLabel id="grade-in-charge">Grade in Charge</InputLabel>
             <Select
-              labelId="grade-label"
+              label="grade-in-charge"
               id="grade"
-              value={gradeInCharge}
-              onChange={(event) => {
-                setGradeInCharge(event.target.value);
-              }}
+              value={formData.gradeInCharge}
+              onChange={handleChange}
             >
-              <MenuItem value="jss1">Junior Sec 1</MenuItem>
-              <MenuItem value="jss2">Junior Sec 1</MenuItem>
+              {grade?.map((item)=>(
+                <MenuItem value={item.id}>{item.name}</MenuItem>
+              ))}
+              
+              {/* <MenuItem value="jss2">Junior Sec 1</MenuItem> */}
             </Select>
           </StyledFormControl>
         </Grid>

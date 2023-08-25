@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthContext from "../../utils/AuthProvider";
 import styled from "styled-components";
 import {
   FormControl,
@@ -35,12 +36,14 @@ const ratings = [
   { id: "5", value: "Very Good" },
 ];
 
+// TODO:
 const AddPsychomotor = () => {
   const [students, setStudents] = useState([]);
   const [psychomotor, setPsychomotor] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState("");
   const [selectedPsychomotor, setSelectedPsychomotor] = useState("");
   const [rating, setRating] = useState("");
+  const {auth} = useContext(AuthContext)
 
   const useFetch = (url, setData) => {
     useEffect(() => {
@@ -59,7 +62,7 @@ const AddPsychomotor = () => {
   }, [setPsychomotor]);
 
   // Use the custom hook to fetch data for courses and students
-  const classId = 1;
+  const classId = auth.user.user_info.grade_in_charge.id
   useFetch(
     `http://127.0.0.1:8000/student/student-by-class/${classId}`,
     setStudents

@@ -8,7 +8,7 @@ const PreviewSecAssGrid = () => {
 
   useEffect(() => {
     // Fetch data from API
-    const classId = auth.user.user_info.grade_in_charge
+    const classId = auth.user.user_info.grade_in_charge.id
 
     fetch(`http://127.0.0.1:8000/result/view-second-assessment/${classId}`)
       .then((response) => response.json())

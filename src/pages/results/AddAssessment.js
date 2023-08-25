@@ -62,8 +62,8 @@ const useFetch = (url, setData) => {
 };
 
 // Use the custom hook to fetch data for courses and students
-const classId = auth.user?.user_info?.grade_in_charge;
-console.log(classId)
+const classId = auth.user.user_info.grade_in_charge.id
+// console.log(classId)
 useFetch(`http://127.0.0.1:8000/setup/get-class-courses/${classId}`, setCourses);
 useFetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`, setStudents);
 

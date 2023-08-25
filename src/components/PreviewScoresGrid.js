@@ -8,8 +8,8 @@ const PreviewScoresGrid = () => {
 
   useEffect(() => {
     // Fetch data from API
-    const classId = auth.user.user_info.grade_in_charge
-
+    const classId = auth.user.user_info.grade_in_charge.id
+ 
     fetch(`http://127.0.0.1:8000/result/view-assessment/${classId}`)
       .then((response) => response.json())
       .then((data) => setData(data))

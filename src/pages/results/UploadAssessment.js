@@ -14,6 +14,8 @@ const UploadAssessment = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleUpload = (event) => {
+
+
     event.preventDefault();
     if (selectedFile) {
       const formData = new FormData();
@@ -73,3 +75,5 @@ const UploadAssessment = () => {
 };
 
 export default UploadAssessment;
+
+
