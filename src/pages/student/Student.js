@@ -1,22 +1,21 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import AuthContext from "../../utils/AuthProvider";
+import axios from "../../api/axios";
 
 const StudentDash = () => {
-    const {auth} = useContext(AuthContext)
- 
+  const { auth } = useContext(AuthContext);
+
   const [student, setStudent] = useState({});
   const [studentClass, setStudentClass] = useState("");
   const [fee, setFee] = useState("");
-  const id = auth.user.user_info.admission_id
+  const id = auth.user.user_info.admission_id;
 
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/student/get-student/${id}`
-        );
-        const data = await response.json();
+        const response = await axios.get(`/student/get-student/${id}`);
+        const data = response.data;
         setStudent(data);
         setStudentClass(data.class_id.name);
       } catch (error) {
@@ -28,22 +27,22 @@ const StudentDash = () => {
   }, [id]);
 
   useEffect(() => {
-    
-    fetch(`http://127.0.0.1:8000/fee/fee-check`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        student: id,
-
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => setFee(data[0]))
+    axios
+      .post(
+        `/fee/fee-check`,
+        {
+          student: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => setFee(response.data[0]))
       .catch((error) => console.log(error));
   }, [id]);
- 
+
   return (
     <div>
       <div className="container-fluid">
@@ -73,8 +72,9 @@ const StudentDash = () => {
                   <h6 className="font-weight-bold">
                     ID:{" "}
                     <span className="font-weight-lighter ml-2">
-                      
-                      <Link to={`/student/update?student_id=${student.admission_id}`}>
+                      <Link
+                        to={`/student/update?student_id=${student.admission_id}`}
+                      >
                         {student.admission_id}
                       </Link>
                     </span>

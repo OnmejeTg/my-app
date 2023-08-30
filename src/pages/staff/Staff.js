@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import axios from "../../api/axios";
 
 const Staff = () => {
   const [staff, setStaff] = useState({});
@@ -9,8 +10,8 @@ const Staff = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/sch-staff/${id}`);
-        const data = await response.json();
+        const response = await axios(`http://127.0.0.1:8000/sch-staff/${id}`);
+        const data =  response.data;
         setStaff(data);
       } catch (error) {
         console.log(error);

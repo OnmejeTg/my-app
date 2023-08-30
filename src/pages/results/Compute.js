@@ -1,15 +1,29 @@
 import React, { useState } from "react";
 import { Grid, Typography, Button } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "../../api/axios";
 
 function ComputeResult() {
   const [resCalcTotal, setResCalTotal] = useState("");
   const [resCalResult, setResCalResult] = useState("");
   // You can add your logic for the buttons here
+  // const handleComputeTotals = async () => {
+  //   try {
+  //     const response = await fetch("http://127.0.0.1:8000/result/calc-total");
+  //     const data = await response.json();
+  //     setResCalTotal(data);
+  //     console.log(resCalcTotal);
+  //     toast.success("Totals computed successfully!");
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error("Failed, Try again!");
+  //   }
+  // };
+
   const handleComputeTotals = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/result/calc-total");
-      const data = await response.json();
+      const response = await axios.get("/result/calc-total");
+      const data = response.data;
       setResCalTotal(data);
       console.log(resCalcTotal);
       toast.success("Totals computed successfully!");
@@ -21,8 +35,8 @@ function ComputeResult() {
 
   const handleComputePositions = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/result/calc-result");
-      const data = await response.json();
+      const response = await axios("/result/calc-result");
+      const data =  response.data;
       setResCalResult(data);
       console.log(resCalResult);
       toast.success("Position computed successfully!");

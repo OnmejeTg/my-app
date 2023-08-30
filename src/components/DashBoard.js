@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "../api/axios";
 
 
 
 const DashBoard = () => {
   const [data, setData] = useState([]);
 
-  React.useEffect(() => {
-    fetch("http://127.0.0.1:8000/AdminUser/portal-analytics")
-      .then((response) => response.json())
-      .then((data) => setData(data))
+  // React.useEffect(() => {
+  //   fetch("http://127.0.0.1:8000/AdminUser/portal-analytics")
+  //     .then((response) => response.json())
+  //     .then((data) => setData(data))
+  //     .catch((error) => console.log(error));
+  // }, [setData]);
+  useEffect(() => {
+    axios.get("/AdminUser/portal-analytics")
+      .then((response) => setData(response.data))
       .catch((error) => console.log(error));
-  }, [setData]);
+  }, []);
+
+  
   return (
     <div className="container-fluid">
       {/* <!-- Page Heading --> */}

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -50,8 +51,8 @@ const UpdateStudentDash = () => {
   
   useEffect(() => {
     // Fetch data from API
-    fetch(`http://127.0.0.1:8000/student/get-student/${studentId}`)
-      .then((response) => response.json())
+    axios.get(`http://127.0.0.1:8000/student/get-student/${studentId}`)
+      .then((response) => response.data)
       .then((data) => {
         setStudent(data);
         setSurname(data.surname);
@@ -90,30 +91,24 @@ const UpdateStudentDash = () => {
       // formData.append("sex", sex);
 
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/student/update-student/${student.id}`,
-          {
-            method: "PUT",
-
-            body: formData,
-          }
+        const response = await axios.put(
+          `/student/update-student/${student.id}`,
+          formData
         );
-
-        if (response.ok) {
+      
+        if (response.status === 200) {
           // File submitted successfully
           // toast.success("Updated Successfully!");
-          navigate('/student/dashboard')
-          
+          navigate('/student/dashboard');
         } else {
           // Handle error response
-          
           toast.error("Failed. Please try again.");
         }
       } catch (error) {
         // Handle network error
         console.error("Network error:", error);
         toast.error("Failed. Please try again.");
-      }
+      }      
     }
   };
   

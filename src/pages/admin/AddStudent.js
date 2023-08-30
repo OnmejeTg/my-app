@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import styled from "styled-components";
+import axios from "../../api/axios";
+
 
 const FormContainer = styled.form`
   display: flex;
@@ -32,7 +34,7 @@ function AddStudent() {
   const [stdClass, setStdClass] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [dateofBirth, setDateofBirth] = useState(null);
-  const [dateofAdmission,setDateofAdmission] = useState(null);
+  const [dateofAdmission, setDateofAdmission] = useState(null);
 
   const initialFormData = {
     surname: "",
@@ -52,9 +54,8 @@ function AddStudent() {
 
   useEffect(() => {
     // Fetch data from API
-    fetch("http://127.0.0.1:8000/setup/get-class")
-      .then((response) => response.json())
-      .then((data) => setStdClass(data.results))
+    axios.get("/setup/get-class")
+      .then((response) => setStdClass(response.data.results))
       .catch((error) => console.log(error));
   }, []);
 
@@ -80,21 +81,41 @@ function AddStudent() {
       formDataToSend.append("profile_pics", selectedFile);
     }
 
-    if (dateofBirth){
-      formDataToSend.append("date_of_birth", dateofBirth)
+    if (dateofBirth) {
+      formDataToSend.append("date_of_birth", dateofBirth);
     }
-    if (dateofAdmission){
-      formDataToSend.append("year_of_admission", dateofAdmission)
+    if (dateofAdmission) {
+      formDataToSend.append("year_of_admission", dateofAdmission);
     }
 
+    //   try {
+    //     const response = await fetch("http://127.0.0.1:8000/student/add", {
+    //       method: "POST",
+    //       body: formDataToSend,
+    //     });
 
+    //     if (response.ok) {
+    //       toast.success("Student added!");
+    //       setFormData(initialFormData);
+    //       setSelectedFile(null);
+    //     } else {
+    //       console.error("Error submitting form");
+    //       toast.error("Failed. Please try again.");
+    //     }
+    //   } catch (error) {
+    //     console.error("Network error:", error);
+    //     toast.error("Failed. Please try again.");
+    //   } finally {
+    //     setButtonDisabled(false);
+    //   }
+    // };
     try {
-      const response = await fetch("http://127.0.0.1:8000/student/add", {
-        method: "POST",
-        body: formDataToSend,
-      });
+      const response = await axios.post(
+        "/student/add",
+        formDataToSend
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         toast.success("Student added!");
         setFormData(initialFormData);
         setSelectedFile(null);

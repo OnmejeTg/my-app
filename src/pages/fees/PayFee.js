@@ -13,6 +13,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -43,33 +44,72 @@ const PayFee = () => {
 
   useEffect(() => {
     // Fetch data from API
-    fetch(FETCH_FEES_URL)
-      .then((response) => response.json())
-      .then((data) => setPortalFees(data.results))
+    axios
+      .get(`/fee/get-fees`)
+      .then((response) => setPortalFees(response.data.results))
       .catch((error) => console.log(error));
   }, []);
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   setButtonDisabled(true);
+
+  //   try {
+  //     const response = await axios.post(
+  //       'fee/pay',
+  //       {
+  //         fee_type: description,
+  //         student,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 400) {
+  //       throw new Error("Payment failed, try again");
+  //     }
+
+  //     const data = await response.json();
+  //     toast.success("Payment successful!");
+  //     setTimeout(() => {
+  //       navigate("/outstanding-fee");
+  //     }, 1000);
+  //   } catch (error) {
+  //     toast.error(`${error.message}`);
+  //     // console.log(error);
+  //     setStudent("");
+  //     setDescription("");
+  //   } finally {
+  //     setButtonDisabled(false);
+  //   }
+  // };
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setButtonDisabled(true);
-
+  
     try {
-      const response = await fetch(PAY_FEE_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        'fee/pay',
+        {
           fee_type: description,
           student,
-        }),
-      });
-
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+  
       if (response.status === 400) {
         throw new Error("Payment failed, try again");
       }
-
-      const data = await response.json();
+  
       toast.success("Payment successful!");
       setTimeout(() => {
         navigate("/outstanding-fee");
@@ -77,12 +117,11 @@ const PayFee = () => {
     } catch (error) {
       toast.error(`${error.message}`);
       // console.log(error);
-      setStudent("");
-      setDescription("");
     } finally {
       setButtonDisabled(false);
     }
   };
+  
 
   return (
     <FormContainer onSubmit={handleSubmit}>

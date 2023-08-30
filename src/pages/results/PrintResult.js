@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Grid, Button, Typography, TextField } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -26,17 +27,20 @@ const PrintResult = () => {
       // Enable the button after the action is complete
       setButtonDisabled(false);
     }, 1500);
-    const url = "http://127.0.0.1:8000/result/print-result";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        student_id: student,
-        payment_ref: paymentRef,
-      }),
-    })
+    const url = "/result/print-result";
+    axios
+      .post(
+        url,
+        {
+          student_id: student,
+          payment_ref: paymentRef,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 400) {
           throw new Error("Invalid Payment Ref, try again");

@@ -12,6 +12,7 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -49,9 +50,8 @@ const AddStaff = () => {
 
   useEffect(() => {
     // Fetch data from API
-    fetch("http://127.0.0.1:8000/setup/get-class")
-      .then((response) => response.json())
-      .then((data) => setGrade(data.results))
+    axios.get("/setup/get-class")
+      .then((response) => setGrade(response.data.results))
       .catch((error) => console.log(error));
   }, []);
 

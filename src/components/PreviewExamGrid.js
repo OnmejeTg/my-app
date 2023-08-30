@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import AuthContext from "../utils/AuthProvider";
+import axios from "../api/axios";
 
 const PreviewExamGrid = () => {
   const {auth} = useContext(AuthContext)
@@ -10,9 +11,8 @@ const PreviewExamGrid = () => {
     // Fetch data from API
     const classId = auth.user.user_info.grade_in_charge.id
 
-    fetch(`http://127.0.0.1:8000/result/view-exam/${classId}`)
-      .then((response) => response.json())
-      .then((data) => setData(data))
+    axios.get(`/result/view-exam/${classId}`)
+      .then((response) => setData(response.data))
       .catch((error) => console.log(error));
   }, []);
 

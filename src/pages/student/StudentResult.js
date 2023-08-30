@@ -4,6 +4,7 @@ import { Grid, Button, Typography, TextField } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthContext from "../../utils/AuthProvider";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -17,12 +18,12 @@ const StyledButton = styled(Button)`
 `;
 
 const StudentResult = () => {
-    const {auth} = useContext(AuthContext)
-//   const [student, setStudent] = useState("");
+  const { auth } = useContext(AuthContext);
+  //   const [student, setStudent] = useState("");
   const [paymentRef, setPaymentRef] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
-  const student = auth.user.user_info.admission_id
+  const student = auth.user.user_info.admission_id;
   const handleSubmit = (e) => {
     e.preventDefault();
     setButtonDisabled(true);
@@ -30,17 +31,20 @@ const StudentResult = () => {
       // Enable the button after the action is complete
       setButtonDisabled(false);
     }, 1500);
-    const url = "http://127.0.0.1:8000/result/print-result";
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        student_id: student,
-        payment_ref: paymentRef,
-      }),
-    })
+    const url = "/result/print-result";
+    axios
+      .post(
+        url,
+        {
+          student_id: student,
+          payment_ref: paymentRef,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
       .then((response) => {
         if (response.status === 400) {
           throw new Error("Invalid Payment Ref, try again");
@@ -77,7 +81,8 @@ const StudentResult = () => {
       <div className="mb-4">
         <b>INSTRUCTIONS:</b>
         <br />
-        Enter the payment ref of your most recent school payment to download result 
+        Enter the payment ref of your most recent school payment to download
+        result
         <br />
       </div>
 

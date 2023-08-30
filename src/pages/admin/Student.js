@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import axios from "../../api/axios";
 
 const Student = () => {
   const { id } = useParams();
@@ -8,13 +9,28 @@ const Student = () => {
   const [studentClass, setStudentClass] = useState("");
   const [fee, setFee] = useState("");
 
+  // useEffect(() => {
+  //   const fetchStudentData = async () => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://127.0.0.1:8000/student/get-student/${id}`
+  //       );
+  //       const data = await response.json();
+  //       setStudent(data);
+  //       setStudentClass(data.class_id.name);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   };
+
+  //   fetchStudentData();
+  // }, [id]);
+
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await fetch(
-          `http://127.0.0.1:8000/student/get-student/${id}`
-        );
-        const data = await response.json();
+        const response = await axios.get(`/student/get-student/${id}`);
+        const data = response.data;
         setStudent(data);
         setStudentClass(data.class_id.name);
       } catch (error) {
@@ -29,17 +45,19 @@ const Student = () => {
     // Fetch data from API
     // const classId = 1;
 
-    fetch(`http://127.0.0.1:8000/fee/fee-check`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        student: id,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => setFee(data[0]))
+    axios
+      .post(
+        `/fee/fee-check`,
+        {
+          student: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((response) => setFee(response.data[0]))
       .catch((error) => console.log(error));
   }, [id]);
   // console.log(fee);
@@ -72,8 +90,9 @@ const Student = () => {
                   <h6 className="font-weight-bold">
                     ID:{" "}
                     <span className="font-weight-lighter ml-2">
-                      
-                      <Link to={`/update-student?student_id=${student.admission_id}`}>
+                      <Link
+                        to={`/update-student?student_id=${student.admission_id}`}
+                      >
                         {student.admission_id}
                       </Link>
                     </span>
@@ -162,7 +181,9 @@ const Student = () => {
                     <h6 className="font-weight-bold">
                       First Term:{" "}
                       <span className="font-weight-lighter ml-2">
-                        {fee ? `Paid ${fee.fee_type_amount} || Ref: ${fee.payment_ref}` : "Not paid"}
+                        {fee
+                          ? `Paid ${fee.fee_type_amount} || Ref: ${fee.payment_ref}`
+                          : "Not paid"}
                       </span>
                     </h6>
                     <h6 className="font-weight-bold">

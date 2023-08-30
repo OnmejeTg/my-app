@@ -13,6 +13,7 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import axios from "../../api/axios";
 
 
 const FormContainer = styled.form`
@@ -54,19 +55,56 @@ const AddAssessment = () => {
 // Define a custom hook to fetch data from an API
 const useFetch = (url, setData) => {
   useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
+    axios.get(url)
+      .then((response) => response.data)
       .then((data) => setData(data))
       .catch((error) => console.log(error));
   }, [url, setData]);
 };
 
+
 // Use the custom hook to fetch data for courses and students
 const classId = auth.user.user_info.grade_in_charge.id
 // console.log(classId)
-useFetch(`http://127.0.0.1:8000/setup/get-class-courses/${classId}`, setCourses);
-useFetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`, setStudents);
+useFetch(`/setup/get-class-courses/${classId}`, setCourses);
+useFetch(`/student/student-by-class/${classId}`, setStudents);
 
+
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   // Get the URL from the map based on the assessment type
+  //   let url = assessmentURLs[assessmentType];
+  //   // Check if the URL is valid
+  //   if (!url) {
+  //     toast.error("Invalid assessment type.");
+  //     return;
+  //   }
+  
+  //   fetch(url, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       score: score,
+  //       student: selectedStudent,
+  //       course: selectedCourse,
+  //     }),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       toast.success("Assessment added!");
+       
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //       toast.error("Failed. Please try again.");
+        
+  //     });
+  
+    
+  //   setScore("");
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -78,31 +116,26 @@ useFetch(`http://127.0.0.1:8000/student/student-by-class/${classId}`, setStudent
       return;
     }
   
-    fetch(url, {
-      method: "POST",
+    axios.post(url, {
+      score: score,
+      student: selectedStudent,
+      course: selectedCourse,
+    }, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        score: score,
-        student: selectedStudent,
-        course: selectedCourse,
-      }),
     })
-      .then((response) => response.json())
-      .then((data) => {
-        toast.success("Assessment added!");
-       
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        toast.error("Failed. Please try again.");
-        
-      });
+    .then((response) => {
+      toast.success("Assessment added!");
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      toast.error("Failed. Please try again.");
+    });
   
-    
     setScore("");
   };
+
 
   return (
     <FormContainer onSubmit={handleSubmit}>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Button, Grid, Typography, Input } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -30,30 +31,27 @@ const UploadStudents = () => {
 
     if (selectedFile) {
       const formData = new FormData();
-      formData.append("excel_file", selectedFile);
+      formData.append('excel_file', selectedFile);
 
-      const headers = new Headers();
-      headers.append('Accept', 'application/json');
+      const headers = {
+        'Accept': 'application/json',
+      };
 
-      fetch("http://127.0.0.1:8000/student/upload", {
-        method: "POST",
-        headers: headers,
-        body: formData,
-      })
-        .then((response) =>  { 
-          if (response.status !== 201){
-            throw new Error ("Upload failed")
+      axios.post('/student/upload', formData, { headers })
+        .then(response => {
+          if (response.status === 201) {
+            return response.data;
+          } else {
+            throw new Error('Upload failed');
           }
-          return response.json()})
-        .then((data) => {
-          // console.log("Response:", data);
-          if (data.status === "success"){
+        })
+        .then(data => {
+          if (data.status === 'success') {
             toast.success(data.message);
           }
-          
         })
-        .catch((error) => {
-          console.error("Error:", error);
+        .catch(error => {
+          console.error('Error:', error);
           toast.error(`${error.message}`);
         });
 

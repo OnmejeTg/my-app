@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -58,31 +59,29 @@ const UpdateStudent = () => {
 
   useEffect(() => {
     // Fetch class data
-    fetch("http://127.0.0.1:8000/setup/get-class")
-      .then((response) => response.json())
-      .then((data) => setStdClass(data.results))
+    axios.get("/setup/get-class")
+      .then((response) => setStdClass(response.data.results))
       .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
     // Fetch student data
-    fetch(`http://127.0.0.1:8000/student/get-student/${studentId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setStudent(data);
+    axios.get(`/student/get-student/${studentId}`)
+      .then((response) => {
+        setStudent(response.data);
         setFormData({
-          surname: data.surname,
-          othernames: data.othernames,
-          sex: data.sex,
-          dateofBirth: data.date_of_birth,
-          dateofAdmission: data.year_of_admission,
-          selectedClass: data.class_id.id,
-          parentSurname: data.parent_surname,
-          parentOthernames: data.parent_othernames,
-          parentPhone: data.parent_phone,
-          parentAddress: data.parent_address,
-          parentEmail: data.parent_email,
-          parentOccupation: data.parent_occupation,
+          surname: response.data.surname,
+          othernames: response.data.othernames,
+          sex: response.data.sex,
+          dateofBirth: response.data.date_of_birth,
+          dateofAdmission: response.data.year_of_admission,
+          selectedClass: response.data.class_id.id,
+          parentSurname: response.data.parent_surname,
+          parentOthernames: response.data.parent_othernames,
+          parentPhone: response.data.parent_phone,
+          parentAddress: response.data.parent_address,
+          parentEmail: response.data.parent_email,
+          parentOccupation: response.data.parent_occupation,
         });
       })
       .catch((error) => console.log(error));
@@ -105,22 +104,19 @@ const UpdateStudent = () => {
     });
 
     try {
-      const response = await fetch(
-        `http://127.0.0.1:8000/student/update-student/${student.id}`,
-        {
-          method: "PUT",
-          body: formDataToSend,
-        }
+      const response = await axios.put(
+        `/student/update-student/${student.id}`,
+        formDataToSend
       );
 
-      if (response.ok) {
+      if (response.status === 200) {
         navigate(`/view-student/${student.admission_id}`);
       } else {
-        toast.error("Failed. Please try again.");
+        toast.error('Failed. Please try again.');
       }
     } catch (error) {
-      console.error("Network error:", error);
-      toast.error("Failed. Please try again.");
+      console.error('Network error:', error);
+      toast.error('Failed. Please try again.');
     }
   };
 

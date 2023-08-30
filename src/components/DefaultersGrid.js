@@ -1,17 +1,24 @@
-import React from "react";
+import  { useEffect, useState } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 
+import axios from "../api/axios";
 const DefaultersGrid = () => {
-  const [rows, setRows] = React.useState([]);
+  const [rows, setRows] = useState([]);
 
-  React.useEffect(() => {
-    // Fetch data from API
-    fetch("http://127.0.0.1:8000/fee/fee-defaulters")
-      .then((response) => response.json())
-      .then((data) => setRows(data))
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   // Fetch data from API
+  //   fetch("http://127.0.0.1:8000/fee/fee-defaulters")
+  //     .then((response) => response.json())
+  //     .then((data) => setRows(data))
+  //     .catch((error) => console.log(error));
+  // }, []);
+
+  useEffect(()=>{
+    axios.get("/fee/fee-defaulters")
+    .then((response)=>setRows(response.data))
+    .catch((error)=>console.log(error))
+  }, [])
 
   const handleRowClick = (params) => {
     const studentId = params.row.student_id;

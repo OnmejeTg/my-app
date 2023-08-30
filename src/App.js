@@ -41,6 +41,7 @@ import ContactAdmin from "./pages/student/ContactAdmin";
 import Invoice from "./pages/student/Invoice";
 import Outstanding from "./pages/student/Outstanding";
 import Staff from "./pages/staff/Staff";
+import ViewMasterList from "./pages/admin/ViewMasterList";
 
 function App() {
   return (
@@ -87,7 +88,7 @@ function App() {
             <Route path="add-assessment" element={<AddAssessment />} />
             <Route path="add-psychomotor" element={<AddPsychomotor />} />
             <Route path="upload-scores" element={<UploadAssessment />} />
-            <Route path="view-first-assessment" element={<ComingSoon />} />
+            <Route path="view-first-assessment" element={<ViewMasterList />} />
             <Route path="view-sec-assessment" element={<ComingSoon />} />
             <Route path="view-exam" element={<ComingSoon />} />
             <Route path="compute-scores" element={<ComputeResult />} />

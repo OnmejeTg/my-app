@@ -12,6 +12,7 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import axios from "../../api/axios";
 
 const FormContainer = styled.form`
   display: flex;
@@ -43,46 +44,51 @@ const AddPsychomotor = () => {
   const [selectedStudent, setSelectedStudent] = useState("");
   const [selectedPsychomotor, setSelectedPsychomotor] = useState("");
   const [rating, setRating] = useState("");
-  const {auth} = useContext(AuthContext)
+  const { auth } = useContext(AuthContext);
+
+  // const useFetch = (url, setData) => {
+  //   useEffect(() => {
+  //     fetch(url)
+  //       .then((response) => response.json())
+  //       .then((data) => setData(data))
+  //       .catch((error) => console.log(error));
+  //   }, [url, setData]);
+  // };
 
   const useFetch = (url, setData) => {
     useEffect(() => {
-      fetch(url)
-        .then((response) => response.json())
+      axios
+        .get(url)
+        .then((response) => response.data)
         .then((data) => setData(data))
         .catch((error) => console.log(error));
     }, [url, setData]);
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/result/list-psychomotor")
-      .then((response) => response.json())
-      .then((data) => setPsychomotor(data.results))
+    axios
+      .get("/result/list-psychomotor")
+      .then((response) => setPsychomotor(response.data.results))
       .catch((error) => console.log(error));
   }, [setPsychomotor]);
 
   // Use the custom hook to fetch data for courses and students
-  const classId = auth.user.user_info.grade_in_charge.id
-  useFetch(
-    `http://127.0.0.1:8000/student/student-by-class/${classId}`,
-    setStudents
-  );
+  const classId = auth.user.user_info.grade_in_charge.id;
+  useFetch(`/student/student-by-class/${classId}`, setStudents);
   const data = {
     rating: rating,
     student: selectedStudent,
-    psycho_affective: selectedPsychomotor
+    psycho_affective: selectedPsychomotor,
   };
-  console.log(selectedPsychomotor)
+  console.log(selectedPsychomotor);
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch("http://127.0.0.1:8000/result/add-psychomotor", {
-      method: "POST",
-      body: JSON.stringify(data),
+    axios("/result/add-psychomotor", data, {
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((res) => res.json())
+      .then((res) => res.data)
       .then((data) => {
         toast.success("SKill Added Successfully");
       })
@@ -90,7 +96,7 @@ const AddPsychomotor = () => {
         console.error("Error:", error);
         toast.error("Failed. Please try again.");
       });
-   
+
     setRating("");
   };
   return (
