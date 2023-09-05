@@ -48,7 +48,7 @@ const columns = [
     { field: "secondCA", headerName: "Second CA", width: 120 },
     { field: "exam", headerName: "Exam", width: 90 },
   ];
-
+  console.log(data)
   const rows = data.map((item) => {
     const row = { id: item.ID };
     item.data.forEach((entry) => {
@@ -56,6 +56,8 @@ const columns = [
     });
     return row;
   });
+
+
 
   return (
     <div style={{ height: "100%", width: "100%" }}>

@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   Stack,
+  Input,
 } from "@mui/material";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -42,10 +43,11 @@ const UpdateStudent = () => {
 
   const [student, setStudent] = useState({});
   const [stdClass, setStdClass] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
     surname: "",
     othernames: "",
-    sex:"",
+    sex: "",
     dateofBirth: null,
     dateofAdmission: null,
     selectedClass: "",
@@ -59,14 +61,16 @@ const UpdateStudent = () => {
 
   useEffect(() => {
     // Fetch class data
-    axios.get("/setup/get-class")
+    axios
+      .get("/setup/get-class")
       .then((response) => setStdClass(response.data.results))
       .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
     // Fetch student data
-    axios.get(`/student/get-student/${studentId}`)
+    axios
+      .get(`/student/get-student/${studentId}`)
       .then((response) => {
         setStudent(response.data);
         setFormData({
@@ -112,13 +116,34 @@ const UpdateStudent = () => {
       if (response.status === 200) {
         navigate(`/view-student/${student.admission_id}`);
       } else {
-        toast.error('Failed. Please try again.');
+        toast.error("Failed. Please try again.");
       }
     } catch (error) {
-      console.error('Network error:', error);
-      toast.error('Failed. Please try again.');
+      console.error("Network error:", error);
+      toast.error("Failed. Please try again.");
     }
   };
+
+  useEffect(() => {
+    if (selectedFile !== null) {
+      try {
+        const response =  axios.put(
+          `/student/update-student/${student.id}`, {}
+          
+        );
+  
+        if (response.status === 200) {
+          navigate(`/view-student/${student.admission_id}`);
+        } else {
+          toast.error("Failed. Please try again.");
+        }
+      } catch (error) {
+        console.error("Network error:", error);
+        toast.error("Failed. Please try again.");
+      }
+      console.log(selectedFile);
+    }
+  }, [selectedFile]);
 
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -210,6 +235,17 @@ const UpdateStudent = () => {
             />
           </Grid>
         ))}
+
+        <Grid item xs={12}>
+          <InputLabel htmlFor="file-input">Select Passport</InputLabel>
+          <Input
+            fullWidth
+            variant="outlined"
+            type="file"
+            id="file-input"
+            onChange={(event) => setSelectedFile(event.target.files[0])}
+          />
+        </Grid>
 
         <Grid item xs={12}>
           <StyledButton type="submit" variant="contained" color="primary">

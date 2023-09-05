@@ -1,5 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL:'http://tgod.pythonanywhere.com/'
+    // baseURL:'https://tgod.pythonanywhere.com/'
+    baseURL:'http://127.0.0.1:8000/'
 })

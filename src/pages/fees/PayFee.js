@@ -26,10 +26,6 @@ const StyledButton = styled(Button)`
   margin-top: 16px;
 `;
 
-const API_BASE_URL = "http://127.0.0.1:8000/fee";
-const FETCH_FEES_URL = `${API_BASE_URL}/get-fees`;
-const PAY_FEE_URL = `${API_BASE_URL}/pay`;
-
 const PayFee = () => {
   const navigate = useNavigate();
 
