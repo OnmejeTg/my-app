@@ -48,15 +48,16 @@ const UpdateStudent = () => {
     surname: "",
     othernames: "",
     sex: "",
-    dateofBirth: null,
-    dateofAdmission: null,
-    selectedClass: "",
-    parentSurname: "",
-    parentOthernames: "",
-    parentPhone: "",
-    parentAddress: "",
-    parentEmail: "",
-    parentOccupation: "",
+    date_of_birth: null,
+    year_of_admission: null,
+    class_id: "",
+    parent_surname: "",
+    parent_othernames: "",
+    parent_phone: "",
+    parent_address: "",
+    parent_email: "",
+    parent_occupation: "",
+
   });
 
   useEffect(() => {
@@ -77,15 +78,15 @@ const UpdateStudent = () => {
           surname: response.data.surname,
           othernames: response.data.othernames,
           sex: response.data.sex,
-          dateofBirth: response.data.date_of_birth,
-          dateofAdmission: response.data.year_of_admission,
-          selectedClass: response.data.class_id.id,
-          parentSurname: response.data.parent_surname,
-          parentOthernames: response.data.parent_othernames,
-          parentPhone: response.data.parent_phone,
-          parentAddress: response.data.parent_address,
-          parentEmail: response.data.parent_email,
-          parentOccupation: response.data.parent_occupation,
+          date_of_birth: response.data.date_of_birth,
+          year_of_admission: response.data.year_of_admission,
+          class_id: response.data.class_id.id,
+          parent_surname: response.data.parent_surname,
+          parent_othernames: response.data.parent_othernames,
+          parent_phone: response.data.parent_phone,
+          parent_address: response.data.parent_address,
+          parent_email: response.data.parent_email,
+          parent_occupation: response.data.parent_occupation,
         });
       })
       .catch((error) => console.log(error));
@@ -93,12 +94,12 @@ const UpdateStudent = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formDataToSend = new FormData();
@@ -106,6 +107,12 @@ const UpdateStudent = () => {
     Object.entries(formData).forEach(([key, value]) => {
       formDataToSend.append(key, value);
     });
+
+
+    if (selectedFile) {
+      formDataToSend.append("profile_pics", selectedFile);
+    }
+    console.log(formDataToSend)
 
     try {
       const response = await axios.put(
@@ -124,26 +131,6 @@ const UpdateStudent = () => {
     }
   };
 
-  useEffect(() => {
-    if (selectedFile !== null) {
-      try {
-        const response =  axios.put(
-          `/student/update-student/${student.id}`, {}
-          
-        );
-  
-        if (response.status === 200) {
-          navigate(`/view-student/${student.admission_id}`);
-        } else {
-          toast.error("Failed. Please try again.");
-        }
-      } catch (error) {
-        console.error("Network error:", error);
-        toast.error("Failed. Please try again.");
-      }
-      console.log(selectedFile);
-    }
-  }, [selectedFile]);
 
   return (
     <FormContainer onSubmit={handleSubmit}>
@@ -160,7 +147,7 @@ const UpdateStudent = () => {
           <Grid item xs={12} key={field.name}>
             <TextField
               label={field.label}
-              variant="outlined"
+              // variant="outlined"
               fullWidth
               value={formData[field.name]}
               name={field.name}
@@ -176,8 +163,8 @@ const UpdateStudent = () => {
             <label htmlFor="text-input">Date of Birth:</label>
             <StyledInput
               type="date"
-              value={formData.dateofBirth}
-              name="dateofBirth"
+              value={formData.date_of_birth}
+              name="date_of_birth"
               onChange={handleChange}
             />
           </Stack>
@@ -188,8 +175,8 @@ const UpdateStudent = () => {
             <label htmlFor="text-input">Date of Admission:</label>
             <StyledInput
               type="date"
-              value={formData.dateofAdmission}
-              name="dateofAdmission"
+              value={formData.year_of_admission}
+              name="year_of_admission"
               onChange={handleChange}
             />
           </Stack>
@@ -201,9 +188,9 @@ const UpdateStudent = () => {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={formData.selectedClass}
-              name="selectedClass"
-              label="Age"
+              value={formData.class_id}
+              name="class_id"
+              label="Class"
               onChange={handleChange}
             >
               {stdClass?.map((item) => (
@@ -216,12 +203,12 @@ const UpdateStudent = () => {
         </Grid>
         {/* Parent Details */}
         {[
-          { label: "Parent Surname", name: "parentSurname" },
-          { label: "Parent Other Names", name: "parentOthernames" },
-          { label: "Parent Phone", name: "parentPhone" },
-          { label: "Parent Address", name: "parentAddress" },
-          { label: "Parent Email", name: "parentEmail" },
-          { label: "Parent Occupation", name: "parentOccupation" },
+          { label: "Parent Surname", name: "parent_surname" },
+          { label: "Parent Other Names", name: "parent_othernames" },
+          { label: "Parent Phone", name: "parent_phone" },
+          { label: "Parent Address", name: "parent_address" },
+          { label: "Parent Email", name: "parent_email" },
+          { label: "Parent Occupation", name: "parent_occupation" },
         ].map((field) => (
           <Grid item xs={12} key={field.name}>
             <TextField
@@ -243,6 +230,7 @@ const UpdateStudent = () => {
             variant="outlined"
             type="file"
             id="file-input"
+
             onChange={(event) => setSelectedFile(event.target.files[0])}
           />
         </Grid>

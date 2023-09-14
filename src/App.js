@@ -42,6 +42,7 @@ import Invoice from "./pages/student/Invoice";
 import Outstanding from "./pages/student/Outstanding";
 import Staff from "./pages/staff/Staff";
 import ViewMasterList from "./pages/admin/ViewMasterList";
+import UpdateStaffDash from "./pages/staff/UpdateStaff";
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
             <Route path="outstanding-fee" element={<OutstandingFees />} />
             <Route path="view-staff" element={<ViewStaff />} />
             <Route path="add-staff" element={<AddStaff />} />
+            <Route path="update-staff" element={<UpdateStaffDash/>} />
             <Route path="add-assessment" element={<AddAssessment />} />
             <Route path="add-psychomotor" element={<AddPsychomotor />} />
             <Route path="upload-scores" element={<UploadAssessment />} />

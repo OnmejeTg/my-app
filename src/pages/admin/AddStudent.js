@@ -88,36 +88,17 @@ function AddStudent() {
       formDataToSend.append("year_of_admission", dateofAdmission);
     }
 
-    //   try {
-    //     const response = await fetch("http://127.0.0.1:8000/student/add", {
-    //       method: "POST",
-    //       body: formDataToSend,
-    //     });
-
-    //     if (response.ok) {
-    //       toast.success("Student added!");
-    //       setFormData(initialFormData);
-    //       setSelectedFile(null);
-    //     } else {
-    //       console.error("Error submitting form");
-    //       toast.error("Failed. Please try again.");
-    //     }
-    //   } catch (error) {
-    //     console.error("Network error:", error);
-    //     toast.error("Failed. Please try again.");
-    //   } finally {
-    //     setButtonDisabled(false);
-    //   }
-    // };
     try {
       const response = await axios.post(
         "/student/add",
         formDataToSend
       );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         toast.success("Student added!");
         setFormData(initialFormData);
+        setDateofBirth(null)
+        setDateofAdmission(null)
         setSelectedFile(null);
       } else {
         console.error("Error submitting form");

@@ -46,43 +46,7 @@ const PayFee = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //   setButtonDisabled(true);
-
-  //   try {
-  //     const response = await axios.post(
-  //       'fee/pay',
-  //       {
-  //         fee_type: description,
-  //         student,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 400) {
-  //       throw new Error("Payment failed, try again");
-  //     }
-
-  //     const data = await response.json();
-  //     toast.success("Payment successful!");
-  //     setTimeout(() => {
-  //       navigate("/outstanding-fee");
-  //     }, 1000);
-  //   } catch (error) {
-  //     toast.error(`${error.message}`);
-  //     // console.log(error);
-  //     setStudent("");
-  //     setDescription("");
-  //   } finally {
-  //     setButtonDisabled(false);
-  //   }
-  // };
-
+ 
 
   const handleSubmit = async (event) => {
     event.preventDefault();

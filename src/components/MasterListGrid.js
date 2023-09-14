@@ -7,34 +7,50 @@ const MasterListGrid = () => {
   const { auth } = useContext(AuthContext);
   const [data, setData] = useState([]);
 
-  axios.post(
-    "/result/master-sheet",
-    {
-      class_id: 1,
-    },
-    {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    }
-  )
-  .then(response => {
-    
-    setData(response.data)
-    console.log(data);
-  })
-  .catch(error => {
-    console.error("An error occurred:", error);
-  });
   
-//   useEffect(() => {
-//     // Fetch data from API
-//     // const classId = auth.user.user_info.grade_in_charge.id
+  
+  useEffect(() => {
+    axios.post(
+      "/result/master-sheet",
+      {
+        class_id: 1,
+      },
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+        responseType: "blob",
+      }
+      
+    )
+    .then(response => {
+      
+      const blob = new Blob([response.data]); // Use response.data to get the blob
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `result.json`;
+      document.body.appendChild(link);
+      link.click();
 
-//     fetch(`http://127.0.0.1:8000/result/view-exam/${1}`)
-//       .then((response) => response.json())
-//       .then((data) => setData(data))
-//       .catch((error) => console.log(error));
-//   }, []);
+      link.parentNode.removeChild(link);
+      // toast.success("Successful!");
+    })
+    .then((blob) =>{
+      const url = window.URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `result.json`;
+      document.body.appendChild(link);
+      link.click();
+
+      link.parentNode.removeChild(link);
+      // toast.success("Successful!");
+
+    })
+    .catch(error => {
+      console.error("An error occurred:", error);
+    });
+  }, []);
 
   // Extract unique subjects
 //   const subjects = Array.from(

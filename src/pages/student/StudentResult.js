@@ -19,11 +19,12 @@ const StyledButton = styled(Button)`
 
 const StudentResult = () => {
   const { auth } = useContext(AuthContext);
-  //   const [student, setStudent] = useState("");
+  // const [student, setStudent] = useState("");
   const [paymentRef, setPaymentRef] = useState("");
   const [isButtonDisabled, setButtonDisabled] = useState(false);
 
   const student = auth.user.user_info.admission_id;
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     setButtonDisabled(true);
@@ -32,6 +33,7 @@ const StudentResult = () => {
       setButtonDisabled(false);
     }, 1500);
     const url = "/result/print-result";
+
     axios
       .post(
         url,
@@ -43,6 +45,7 @@ const StudentResult = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          responseType: "blob", // Specify the response type as blob
         }
       )
       .then((response) => {
@@ -51,26 +54,26 @@ const StudentResult = () => {
         } else if (response.status === 404) {
           throw new Error("Student not found, try again");
         } else {
-          return response.blob();
+          const blob = new Blob([response.data]); // Use response.data to get the blob
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = `${student}_result.pdf`;
+          document.body.appendChild(link);
+          link.click();
+
+          link.parentNode.removeChild(link);
+          toast.success("Successful!");
+
+          // setStudent("");
+          setPaymentRef("");
         }
-      })
-      .then((blob) => {
-        const url = window.URL.createObjectURL(new Blob([blob]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${student}_result.pdf`;
-        document.body.appendChild(link);
-        link.click();
-
-        link.parentNode.removeChild(link);
-        toast.success("Successful!");
-
-        setPaymentRef("");
       })
       .catch((error) => {
         toast.error(`${error.message}`);
         // console.log(error.message);
       });
+
   };
 
   return (
