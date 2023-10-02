@@ -15,6 +15,7 @@ import {
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import { data } from "jquery";
 
 const FormContainer = styled.form`
   display: flex;
@@ -33,42 +34,42 @@ const UpdateStaffDash = () => {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const studentId = queryParams.get("student_id");
+  const staffId = queryParams.get("staff_id");
 
-  const [student, setStudent] = useState({});
-  const [surname, setSurname] = useState("");
-  const [othernames, setOthernames] = useState("");
-  const [parentSurname, setParentSurname] = useState("");
-  const [parentOthernames, setParentOthernames] = useState("");
-  const [parentPhone, setParentPhone] = useState("");
-  const [parentAddress, setParentAddress] = useState("");
-  const [parentEmail, setParentEmail] = useState("");
-  const [parentOccupation, setParentOccupation] = useState("");
-  const [dateofBirth, setDateofBirth] = useState(null);
-  const [dateofAdmission, setDateofAdmission] = useState(null);
-  const [selectedClass, setSelectedClass] = useState("");
+  const [surname, setSurname] = useState({});
+  const [otherNames, setOtherNames] = useState("");
+  const [sex, setSex] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [qualification, setQualification] = useState("");
+  const [discipline, setDiscipline] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [appType, setAppType] = useState("");
+  const [gradeInCharge, setgradeInCharge] = useState("");
+
 
   
   useEffect(() => {
     // Fetch data from API
-    axios.get(`http://127.0.0.1:8000/student/get-student/${studentId}`)
+    axios.get(`http://127.0.0.1:8000/sch-staff/staff/${staffId}`)
       .then((response) => response.data)
       .then((data) => {
-        setStudent(data);
+  
         setSurname(data.surname);
-        setDateofBirth(data.date_of_birth);
-        setOthernames(data.othernames);
-        setParentAddress(data.parent_address);
-        setParentEmail(data.parent_email);
-        setParentOccupation(data.parent_occupation);
-        setParentOthernames(data.parent_othernames);
-        setParentPhone(data.parent_phone);
-        setParentSurname(data.parent_surname);
-        setSelectedClass(data.class_id.id);
-        setDateofAdmission(data.year_of_admission);
+        setSex(data.sex);
+        setOtherNames(data.othernames);
+        setPhoneNumber(data.phone);
+        setQualification(data.qualification);
+        setDiscipline(data.discipline);
+        setDesignation(data.designation);
+        setAppType(data.appointment_type);
+        setEmail(data.email);
+        setgradeInCharge(data.grade_in_charge);
+        
       })
       .catch((error) => console.log(error));
-  }, [studentId]);
+  }, [staffId]);
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -78,28 +79,25 @@ const UpdateStaffDash = () => {
       const formData = new FormData();
       // formData.append("profile_pics", imageToSend);
       formData.append("surname", surname);
-      formData.append("othernames", othernames);
-      formData.append("date_of_birth", dateofBirth);
-      formData.append("year_of_admission", dateofAdmission);
-      formData.append("parent_surname", parentSurname);
-      formData.append("parent_othernames", parentOthernames);
-      formData.append("parent_phone", parentPhone);
-      formData.append("parent_address", parentAddress);
-      formData.append("parent_email", parentEmail);
-      formData.append("parent_occupation", parentOccupation);
-      formData.append("class_id", selectedClass);
-      // formData.append("sex", sex);
+      formData.append("othernames", otherNames);
+      formData.append("sex", sex);
+      formData.append("qualification", qualification);
+      formData.append("discipline", discipline);
+      formData.append("designation", designation);
+      formData.append("appointment_type", appType);
+      formData.append("grade_in_charge", gradeInCharge);
+   
 
       try {
         const response = await axios.put(
-          `/student/update-student/${student.id}`,
+          `/sch-staff/staff/${staffId}`,
           formData
         );
       
         if (response.status === 200) {
           // File submitted successfully
           // toast.success("Updated Successfully!");
-          navigate('/student/dashboard');
+          navigate(`/view-staff/${staffId}`);
         } else {
           // Handle error response
           toast.error("Failed. Please try again.");
@@ -116,31 +114,19 @@ const UpdateStaffDash = () => {
   return (
     <FormContainer onSubmit={handleSubmit}>
       <Typography variant="h4" align="center" gutterBottom>
-        Edit Your Details
+        Edit Staff Details
       </Typography>
-      <b>Note:To edit other details please contact admin</b>
+      {/* <b>Note:To edit other details please contact admin</b> */}
       <br></br>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TextField
-            label="Parent Phone"
+            label="Surname"
             variant="outlined"
             fullWidth
-            value={parentPhone}
+            value={surname}
             onChange={(event) => {
-              setParentPhone(event.target.value);
-            }}
-            required
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Address"
-            variant="outlined"
-            fullWidth
-            value={parentAddress}
-            onChange={(event) => {
-              setParentAddress(event.target.value);
+              setSurname(event.target.value);
             }}
             required
           />
@@ -148,29 +134,118 @@ const UpdateStaffDash = () => {
 
         <Grid item xs={12}>
           <TextField
-            label="Parent Email"
-            type="email"
+            label="Other Name"
             variant="outlined"
             fullWidth
-            value={parentEmail}
+            value={otherNames}
             onChange={(event) => {
-              setParentEmail(event.target.value);
-            }}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            label="Parent Occupation"
-            variant="outlined"
-            fullWidth
-            value={parentOccupation}
-            onChange={(event) => {
-              setParentOccupation(event.target.value);
+              setOtherNames(event.target.value);
             }}
             required
           />
         </Grid>
 
+        <Grid item xs={12}>
+          <TextField
+            label="Sex"
+            variant="outlined"
+            fullWidth
+            value={sex}
+            onChange={(event) => {
+              setSex(event.target.value);
+            }}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            label="Phone"
+            variant="outlined"
+            fullWidth
+            value={phoneNumber}
+            onChange={(event) => {
+              setPhoneNumber(event.target.value);
+            }}
+            required
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
+            // required
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            label="Qualification"
+            variant="outlined"
+            fullWidth
+            value={qualification}
+            onChange={(event) => {
+              setQualification(event.target.value);
+            }}
+            // required
+          />
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            label="Discipline"
+            variant="outlined"
+            fullWidth
+            value={discipline}
+            onChange={(event) => {
+              setDiscipline(event.target.value);
+            }}
+            // required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Designation"
+            variant="outlined"
+            fullWidth
+            value={designation}
+            onChange={(event) => {
+              setDesignation(event.target.value);
+            }}
+            // required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Application Type"
+            variant="outlined"
+            fullWidth
+            value={appType}
+            onChange={(event) => {
+              setAppType(event.target.value);
+            }}
+            // required
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            label="Class"
+            variant="outlined"
+            fullWidth
+            value={gradeInCharge}
+            onChange={(event) => {
+              setgradeInCharge(event.target.value);
+            }}
+            // required
+          />
+        </Grid>
+        
         <Grid item xs={12}>
           <StyledButton type="submit" variant="contained" color="primary">
             Update

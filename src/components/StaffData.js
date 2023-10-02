@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const StaffData = () => {
@@ -14,7 +14,7 @@ const StaffData = () => {
       const response = await axios.get("/sch-staff/all");
       setRows(response.data.data);
       console.log(rows);
-      toast.success("Message sent");
+      toast.success("Success");
 
       // Reset form fields and enable the button
       // setSubject("");
@@ -38,7 +38,7 @@ const StaffData = () => {
       headerName: "ID",
       width: 150,
       renderCell: (params) => (
-        <Link to={`/view-staff/${params.row.staff_id}`}>
+        <Link to={`/view-staff/${params.row.id}`}>
           {params.row.staff_id}
         </Link>
       ),
@@ -60,7 +60,7 @@ const StaffData = () => {
   return (
     <div>
       {rows.length < 1 ? (
-        <div> No Active Student</div>
+        <div> No Active Staff</div>
       ) : (
         <div style={{ height: "100%", width: "100%" }}>
           <DataGrid

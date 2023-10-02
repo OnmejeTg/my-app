@@ -18,6 +18,7 @@ import OutstandingFees from "./pages/fees/OutstandingFees";
 import AddAssessment from "./pages/results/AddAssessment";
 import UploadAssessment from "./pages/results/UploadAssessment";
 import ViewStaff from "./pages/staff/ViewStaff";
+import UpdateStaff from "./pages/staff/UpdateStaff";
 import AddStaff from "./pages/staff/AddStaff";
 import PreviewAssessment from "./pages/results/PreviewAssessment";
 import PreviewExam from "./pages/results/PreviewExam";
@@ -99,6 +100,7 @@ function App() {
             <Route path="all-annoucement" element={<AllAnnouncement/>} />
             <Route path="view-annoucement/:id" element={<Annoucement/>}/>
             <Route path="view-staff/:id" element={<Staff/>} />
+            <Route path="update-staff/:id" element={<UpdateStaff/>} />
             
           </Route>
         </Routes>

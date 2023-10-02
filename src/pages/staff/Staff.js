@@ -10,7 +10,7 @@ const Staff = () => {
   useEffect(() => {
     const fetchStudentData = async () => {
       try {
-        const response = await axios(`http://127.0.0.1:8000/sch-staff/${id}`);
+        const response = await axios(`http://127.0.0.1:8000/sch-staff/staff/${id}`);
         const data =  response.data;
         setStaff(data);
       } catch (error) {
@@ -21,6 +21,7 @@ const Staff = () => {
     fetchStudentData();
   }, [id]);
 
+  // console.log(staff)
   return (
     <div>
       <div className="container-fluid">
@@ -35,12 +36,12 @@ const Staff = () => {
               </div>
               <div className="card-body">
                 <div className="text-center">
-                  <img
+                  {/* <img
                     className="rounded-circle"
                     src={staff.profile_pics}
                     alt="default"
                     height="150px"
-                  />
+                  /> */}
                   <h3 className="font-weight-bold mt-3">
                     {`${staff.surname} ${staff.othernames}`}
                   </h3>
@@ -50,7 +51,7 @@ const Staff = () => {
                   <h6 className="font-weight-bold">
                     ID:{" "}
                     <span className="font-weight-lighter ml-2">
-                      <Link to={`/student/update?student_id=${staff.staff_id}`}>
+                      <Link to={`/update-staff/?staff_id=${staff.id}`}>
                         {staff.staff_id}
                       </Link>
                     </span>
