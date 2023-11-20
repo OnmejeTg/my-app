@@ -44,6 +44,9 @@ import Outstanding from "./pages/student/Outstanding";
 import Staff from "./pages/staff/Staff";
 import ViewMasterList from "./pages/admin/ViewMasterList";
 import UpdateStaffDash from "./pages/staff/UpdateStaff";
+import Remarks from "./pages/admin/Remarks";
+import Signature from "./pages/admin/Signature";
+import SetAcademicSessionParams from "./pages/admin/SetAcademicSessionParams";
 
 function App() {
   return (
@@ -101,6 +104,9 @@ function App() {
             <Route path="view-annoucement/:id" element={<Annoucement/>}/>
             <Route path="view-staff/:id" element={<Staff/>} />
             <Route path="update-staff/:id" element={<UpdateStaff/>} />
+            <Route path="remarks" element={<Remarks/>} />
+            <Route path="signature" element={<Signature/>} />
+            <Route path="academic-session-params" element={<SetAcademicSessionParams/>} />
             
           </Route>
         </Routes>

@@ -226,6 +226,38 @@ const AdminWrapper = () => {
               </div>
             </div>
           </li>
+          <li className="nav-item">
+            <a
+              className="nav-link collapsed"
+              href="#"
+              data-toggle="collapse"
+              data-target="#collapseSettings"
+              aria-expanded="true"
+              aria-controls="collapseSettings"
+            >
+              <i className="fas fa-chalkboard-teacher"></i>
+              <span>Settings</span>
+            </a>
+            <div
+              id="collapseSettings"
+              className="collapse"
+              aria-labelledby="headingUtilities"
+              data-parent="#accordionSidebar"
+            >
+              <div className="bg-white py-2 collapse-inner rounded">
+                <NavLink className="collapse-item" to="/academic-session-params">
+                  Academic Session
+                </NavLink>
+                <NavLink className="collapse-item" to="/signature" end>
+                  Signature
+                </NavLink>
+                <NavLink className="collapse-item" to="/remarks" end>
+                  Remarks
+                </NavLink>
+                
+              </div>
+            </div>
+          </li>
 
           {/* <!-- Sidebar Toggler (Sidebar) --> */}
           <div className="text-center d-none d-md-inline">

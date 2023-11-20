@@ -112,7 +112,7 @@ const UpdateStudent = () => {
     if (selectedFile) {
       formDataToSend.append("profile_pics", selectedFile);
     }
-    console.log(formDataToSend)
+    // console.log(formDataToSend)
 
     try {
       const response = await axios.put(

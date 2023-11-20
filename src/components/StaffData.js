@@ -13,7 +13,7 @@ const StaffData = () => {
     try {
       const response = await axios.get("/sch-staff/all");
       setRows(response.data.data);
-      console.log(rows);
+      // console.log(rows);
       toast.success("Success");
 
       // Reset form fields and enable the button
